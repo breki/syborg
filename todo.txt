@@ -1,5 +1,9 @@
+- what to do with common code?	
+	- add missing classes
+	 - we have to extract it into another common lib as NuGet package
+- make code analysis fail the build
+- fix code analysis and code contracts issues
 - NUnit 3.0?
-- what to do with common code?
 - add R# annotations
 - create nuget spec
 - add nuget publishing code in the build script

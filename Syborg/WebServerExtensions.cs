@@ -3,6 +3,7 @@ using System.Globalization;
 
 namespace Syborg
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WebServer")]
     public static class WebServerExtensions
     {
         public static string ToRfc2822DateTime (this DateTime dateTime)

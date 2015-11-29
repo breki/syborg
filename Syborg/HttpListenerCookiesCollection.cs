@@ -2,7 +2,8 @@ using System.Net;
 
 namespace Syborg
 {
-    public class HttpListenerCookiesCollection : ICookiesCollection
+    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
+    public sealed class HttpListenerCookiesCollection : ICookiesCollection
     {
         public HttpListenerCookiesCollection(CookieCollection cookies)
         {

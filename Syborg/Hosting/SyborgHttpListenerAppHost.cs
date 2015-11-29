@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -15,6 +16,7 @@ namespace Syborg.Hosting
 {
     public class SyborgHttpListenerAppHost : IDisposable
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "webServer")]
         public SyborgHttpListenerAppHost (
             IWebServerConfiguration configuration,
             string externalUrl,
@@ -48,6 +50,7 @@ namespace Syborg.Hosting
             this.policies.AddRange(policies);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WebServer"), System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string FullWebServerUrl
         {
             get
@@ -71,12 +74,12 @@ namespace Syborg.Hosting
             string uriPrefix = "{0}:{1}{2}".Fmt(externalUrl, serverPortNumber, applicationPath);
             if (!uriPrefix.EndsWith("/", StringComparison.OrdinalIgnoreCase))
                 uriPrefix = uriPrefix + "/";
-            log.DebugFormat("Reserving URL prefix '{0}'...", uriPrefix);
+            log.DebugFormat (CultureInfo.InvariantCulture, "Reserving URL prefix '{0}'...", uriPrefix);
 
             httpListener.Prefixes.Add (uriPrefix);
             httpListener.Start ();
 
-            log.InfoFormat ("Serving on {0}".Fmt (FullWebServerUrl));
+            log.InfoFormat (CultureInfo.InvariantCulture, "Serving on {0}".Fmt (FullWebServerUrl));
             log.Info("Press Ctrl+C to stop the server");
 
             IAsyncResult result = httpListener.BeginGetContext (WebRequestCallback, httpListener);
@@ -93,6 +96,7 @@ namespace Syborg.Hosting
             GC.SuppressFinalize (this);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "httpListener")]
         protected virtual void Dispose (bool disposing)
         {
             if (false == disposed)

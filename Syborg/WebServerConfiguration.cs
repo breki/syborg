@@ -2,6 +2,7 @@
 
 namespace Syborg
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WebServer")]
     public class WebServerConfiguration : IWebServerConfiguration
     {
         public HttpsMode HttpsMode

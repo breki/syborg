@@ -120,8 +120,11 @@ namespace Syborg.Razor
             OutputBuilder.Append (value);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public void WriteLiteralTo(TextWriter writer, Object value)
         {
+            Contract.Requires(writer != null);
+
             writer.Write(value);
         }
 
@@ -129,8 +132,11 @@ namespace Syborg.Razor
         /// Writes the specified object as an HTML-encoded string to the specified text writer.
         /// </summary>
         /// <param name="writer">The text writer.</param><param name="content">The object to encode and write.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public void WriteTo (TextWriter writer, object content)
         {
+            Contract.Requires (writer != null);
+
             writer.Write (HttpUtility.HtmlEncode (content));
         }
 
@@ -175,6 +181,7 @@ namespace Syborg.Razor
         //    Write (output);
         //}
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
         public virtual void WriteAttribute (
             string attr,
             params object[] args)
@@ -224,6 +231,7 @@ namespace Syborg.Razor
             Write (suffix);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public void WriteSection (string name, Action contents)
         {
             throw new NotImplementedException("WriteSection");
@@ -267,7 +275,7 @@ namespace Syborg.Razor
                     return null;
 
                 if (required)
-                    throw new ApplicationException ("Section not defined: " + sectionName);
+                    throw new InvalidOperationException("Section not defined: " + sectionName);
                 
                 //log.DebugFormat ("Section '{0}' not defined", sectionName);
 

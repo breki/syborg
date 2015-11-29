@@ -32,6 +32,7 @@ namespace Syborg.Caching
         public void ProcessRequest(object resourceData, IWebContext context, Action<object, IWebContext> returnResourceAction)
         {
             Contract.Requires(context != null);
+            Contract.Requires(returnResourceAction != null);
         }
     }
 }

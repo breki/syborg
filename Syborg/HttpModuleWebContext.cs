@@ -197,40 +197,40 @@ namespace Syborg
                 HttpResponse response = context.Response;
 
                 StringBuilder s = new StringBuilder ();
-                s.AppendFormat ("IP={0}, ", request.UserHostAddress);
-                s.AppendFormat ("{0} ", response.StatusCode);
-                s.AppendFormat ("{0} {1}, ", request.HttpMethod, request.Url);
+                s.AppendFormat (CultureInfo.InvariantCulture, "IP={0}, ", request.UserHostAddress);
+                s.AppendFormat (CultureInfo.InvariantCulture, "{0} ", response.StatusCode);
+                s.AppendFormat (CultureInfo.InvariantCulture, "{0} {1}, ", request.HttpMethod, request.Url);
                 if (request.UrlReferrer != null)
-                    s.AppendFormat ("(ref {0}), ", request.UrlReferrer);
+                    s.AppendFormat (CultureInfo.InvariantCulture, "(ref {0}), ", request.UrlReferrer);
 
-                s.AppendFormat ("headers: (");
+                s.Append ("headers: (");
                 foreach (string header in request.Headers.AllKeys)
                 {
                     string value = request.Headers[header];
-                    s.AppendFormat ("{0}={1},", header, value);
+                    s.AppendFormat (CultureInfo.InvariantCulture, "{0}={1},", header, value);
                 }
 
-                s.AppendFormat ("), ");
+                s.Append ("), ");
 
-                s.AppendFormat ("ua: '{0}' | ", request.UserAgent);
+                s.AppendFormat (CultureInfo.InvariantCulture, "ua: '{0}' | ", request.UserAgent);
 
-                s.AppendFormat ("status={0} ", response.StatusCode);
+                s.AppendFormat (CultureInfo.InvariantCulture, "status={0} ", response.StatusCode);
                 if (!string.IsNullOrEmpty (response.StatusDescription))
-                    s.AppendFormat ("({0}), ", response.StatusDescription);
+                    s.AppendFormat (CultureInfo.InvariantCulture, "({0}), ", response.StatusDescription);
                 else
                     s.Append (", ");
 
-                s.AppendFormat ("ctype={0}, ", response.ContentType);
-                s.AppendFormat ("len={0}, ", ResponseContentLength);
+                s.AppendFormat (CultureInfo.InvariantCulture, "ctype={0}, ", response.ContentType);
+                s.AppendFormat (CultureInfo.InvariantCulture, "len={0}, ", ResponseContentLength);
 
-                s.AppendFormat ("headers: (");
+                s.Append ("headers: (");
                 foreach (string header in response.Headers.AllKeys)
                 {
                     string value = request.Headers[header];
-                    s.AppendFormat ("{0}={1},", header, value);
+                    s.AppendFormat (CultureInfo.InvariantCulture, "{0}={1},", header, value);
                 }
 
-                s.AppendFormat (") ");
+                s.Append (") ");
 
                 return s.ToString();
             }

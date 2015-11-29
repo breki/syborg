@@ -10,6 +10,7 @@ namespace Syborg.Razor
 {
     public class InMemoryRazorCompiler : IRazorCompiler
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling")]
         public ICompiledRazorTemplate Compile (string razorTemplateText, RazorEngineCompileSettings settings, string templateName = null)
         {
             RazorEngineHost razorEngineHost = new RazorEngineHost (new CSharpRazorCodeLanguage ());
@@ -43,8 +44,8 @@ namespace Syborg.Razor
                     {
                         string generatedTemplateFileName = Path.Combine(Path.GetTempPath(), templateName + ".cs");
                         using (StreamWriter sourceCodeWriter = new StreamWriter(generatedTemplateFileName))
+                        using (CSharpCodeProvider provider = new CSharpCodeProvider ())
                         {
-                            CSharpCodeProvider provider = new CSharpCodeProvider();
                             CodeGeneratorOptions codeGeneratorOptions = new CodeGeneratorOptions();
                             provider.GenerateCodeFromCompileUnit(generatorResults.GeneratedCode, sourceCodeWriter, codeGeneratorOptions);
                             if (log.IsDebugEnabled)
@@ -61,13 +62,15 @@ namespace Syborg.Razor
                 foreach (Assembly referenceAssembly in settings.ReferenceAssemblies)
                     compilerParameters.ReferencedAssemblies.Add(referenceAssembly.Location);
 
-                CSharpCodeProvider codeProvider = new CSharpCodeProvider();
-                CompilerResults compilerResults = codeProvider.CompileAssemblyFromDom(compilerParameters, generatorResults.GeneratedCode);
+                using (CSharpCodeProvider codeProvider = new CSharpCodeProvider())
+                {
+                    CompilerResults compilerResults = codeProvider.CompileAssemblyFromDom(compilerParameters, generatorResults.GeneratedCode);
 
-                if (compilerResults.Errors.HasErrors)
-                    throw new RazorException(generatorResults, compilerResults);
+                    if (compilerResults.Errors.HasErrors)
+                        throw new RazorException(generatorResults, compilerResults);
 
-                return new CompiledRazorTemplate(generatorResults, compilerResults);
+                    return new CompiledRazorTemplate(generatorResults, compilerResults);
+                }
             }
         }
 

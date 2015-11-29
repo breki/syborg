@@ -10,7 +10,7 @@ namespace Syborg.Razor
             Contract.Requires(applicationUrl != null);
 
             applicationAbsoluteBaseUrl = applicationUrl;
-            if (!applicationAbsoluteBaseUrl.EndsWith("/"))
+            if (!applicationAbsoluteBaseUrl.EndsWith("/", StringComparison.Ordinal))
                 applicationAbsoluteBaseUrl += "/";
 
             Uri applicationPathUri = new Uri(applicationUrl);

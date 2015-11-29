@@ -2,7 +2,8 @@ using System.Collections.Generic;
 
 namespace Syborg
 {
-    public class FakeCookiesCollection : ICookiesCollection
+    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
+    public sealed class FakeCookiesCollection : ICookiesCollection
     {
         public void Add(ICookie cookie)
         {
@@ -37,6 +38,7 @@ namespace Syborg
             cookiesList.Remove(cookie);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public void Set(ICookie cookie)
         {
             cookiesDict[cookie.Name] = cookie;

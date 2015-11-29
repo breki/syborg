@@ -54,6 +54,7 @@ namespace Syborg.Common
         void SerializeObjectIntoXmlFile (string filePath, object obj, string xmlStyleSheetProcessingInstructions);
         void WriteFile (string fileName, byte[] data);
         void WriteFile (string fileName, string contents, Encoding encoding);
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", MessageId = "System.Xml.XmlNode")]
         void WriteXmlDocument (string fileName, XmlDocument xmlDoc);
     }
 

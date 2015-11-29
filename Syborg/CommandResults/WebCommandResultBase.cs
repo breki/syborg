@@ -46,7 +46,7 @@ namespace Syborg.CommandResults
                 context.LoggingSeverity = LoggingSeverity.Value;
         }
 
-        [Obsolete]
+        [Obsolete("what to do with this?")]
         protected void VerifyCaching(IWebContext context)
         {
             Contract.Requires(context != null);

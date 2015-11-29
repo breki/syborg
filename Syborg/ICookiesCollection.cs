@@ -2,15 +2,19 @@ using System.Diagnostics.Contracts;
 
 namespace Syborg
 {
-    [ContractClass(typeof(ICookiesCollectionContract))]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
+    [ContractClass (typeof(ICookiesCollectionContract))]
     public interface ICookiesCollection
     {
         void Add(ICookie cookie);
         void Clear();
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get")]
         ICookie Get(int index);
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get")]
         ICookie Get(string name);
         string GetKey(int index);
         void Remove(string name);
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Set")]
         void Set(ICookie cookie);
         
         ICookie this[int index] { get; }

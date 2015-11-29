@@ -59,6 +59,12 @@ namespace Syborg.CommandResults
             explicitViewName = viewName;
         }
 
+        [ContractInvariantMethod]
+        private void Invariant()
+        {
+            Contract.Invariant(model != null);
+        }
+
         private void RenderView (IWebContext context)
         {
             ICachingPolicy cachingPolicy = new NoCachingPolicy();

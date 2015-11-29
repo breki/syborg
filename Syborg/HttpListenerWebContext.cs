@@ -101,6 +101,7 @@ namespace Syborg
             set { context.Response.ContentType = value; }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations")]
         public ICookiesCollection ResponseCookies
         {
             get { throw new NotImplementedException(); }

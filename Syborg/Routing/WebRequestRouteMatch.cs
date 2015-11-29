@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using Syborg.Common;
 
@@ -59,7 +60,7 @@ namespace Syborg.Routing
 
             try
             {
-                return (T)Convert.ChangeType(value, typeof(T));
+                return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
