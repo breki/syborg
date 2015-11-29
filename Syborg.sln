@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{5D49D61C-5D99-4254-96C0-8B1587BD35F8}"
+	ProjectSection(SolutionItems) = preProject
+		Build.bat = Build.bat
+		CodeAnalysisRules.ruleset = CodeAnalysisRules.ruleset
+		CustomDictionary.xml = CustomDictionary.xml
+		EditStyleCopRules.bat = EditStyleCopRules.bat
+		Settings.StyleCop = Settings.StyleCop
+		Syborg-MIT-license.txt = Syborg-MIT-license.txt
+		Syborg.ProjectVersion.txt = Syborg.ProjectVersion.txt
+		todo.txt = todo.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildScripts", "BuildScripts\BuildScripts.csproj", "{A086C4A5-FA62-4F51-9CF0-2DD417084154}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syborg", "Syborg\Syborg.csproj", "{5C10E2A8-A0B9-4EC8-8F7B-307C20C3D5AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syborg.Tests", "Syborg.Tests\Syborg.Tests.csproj", "{593B39D7-EA6D-4A92-B6E0-66259A097225}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Full|Any CPU = Full|Any CPU
+		Full-Syborg|Any CPU = Full-Syborg|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A086C4A5-FA62-4F51-9CF0-2DD417084154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A086C4A5-FA62-4F51-9CF0-2DD417084154}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A086C4A5-FA62-4F51-9CF0-2DD417084154}.Full|Any CPU.ActiveCfg = Full|Any CPU
+		{A086C4A5-FA62-4F51-9CF0-2DD417084154}.Full|Any CPU.Build.0 = Full|Any CPU
+		{A086C4A5-FA62-4F51-9CF0-2DD417084154}.Full-Syborg|Any CPU.ActiveCfg = Full-Syborg|Any CPU
+		{A086C4A5-FA62-4F51-9CF0-2DD417084154}.Full-Syborg|Any CPU.Build.0 = Full-Syborg|Any CPU
+		{A086C4A5-FA62-4F51-9CF0-2DD417084154}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A086C4A5-FA62-4F51-9CF0-2DD417084154}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C10E2A8-A0B9-4EC8-8F7B-307C20C3D5AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C10E2A8-A0B9-4EC8-8F7B-307C20C3D5AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C10E2A8-A0B9-4EC8-8F7B-307C20C3D5AE}.Full|Any CPU.ActiveCfg = Full|Any CPU
+		{5C10E2A8-A0B9-4EC8-8F7B-307C20C3D5AE}.Full|Any CPU.Build.0 = Full|Any CPU
+		{5C10E2A8-A0B9-4EC8-8F7B-307C20C3D5AE}.Full-Syborg|Any CPU.ActiveCfg = Full-Syborg|Any CPU
+		{5C10E2A8-A0B9-4EC8-8F7B-307C20C3D5AE}.Full-Syborg|Any CPU.Build.0 = Full-Syborg|Any CPU
+		{5C10E2A8-A0B9-4EC8-8F7B-307C20C3D5AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C10E2A8-A0B9-4EC8-8F7B-307C20C3D5AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{593B39D7-EA6D-4A92-B6E0-66259A097225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{593B39D7-EA6D-4A92-B6E0-66259A097225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{593B39D7-EA6D-4A92-B6E0-66259A097225}.Full|Any CPU.ActiveCfg = Full|Any CPU
+		{593B39D7-EA6D-4A92-B6E0-66259A097225}.Full|Any CPU.Build.0 = Full|Any CPU
+		{593B39D7-EA6D-4A92-B6E0-66259A097225}.Full-Syborg|Any CPU.ActiveCfg = Full-Syborg|Any CPU
+		{593B39D7-EA6D-4A92-B6E0-66259A097225}.Full-Syborg|Any CPU.Build.0 = Full-Syborg|Any CPU
+		{593B39D7-EA6D-4A92-B6E0-66259A097225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{593B39D7-EA6D-4A92-B6E0-66259A097225}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

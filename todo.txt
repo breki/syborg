@@ -1,0 +1,6 @@
+- add license file
+- what to do with common code?
+- remove build configurations that are not needed
+- add R# annotations
+- create nuget spec
+- add nuget publishing code in the build script
