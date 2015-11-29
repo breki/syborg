@@ -1,5 +1,3 @@
-- use Flubu NuGet
-- add dupFinder and dotCover into build
 - NUnit 3.0?
 - what to do with common code?
 - add R# annotations

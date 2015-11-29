@@ -1,9 +1,9 @@
 ﻿using System;
 using Flubu;
 using Flubu.Builds;
-using Flubu.Builds.VSSolutionBrowsing;
+using Flubu.Builds.Tasks.AnalysisTasks;
+using Flubu.Builds.Tasks.TestingTasks;
 using Flubu.Targeting;
-using Flubu.Tasks.Processes;
 
 //css_ref Flubu.dll;
 //css_ref Flubu.Contrib.dll;
@@ -31,7 +31,7 @@ namespace BuildScripts
             targetTree.AddTarget ("rebuild")
                 .SetAsDefault ()
                 .SetDescription ("Builds the library and runs tests on it")
-                .DependsOn ("compile", "tests");
+                .DependsOn ("compile", "dupfinder", "tests");
 
             targetTree.AddTarget("release")
                 .SetDescription ("Builds the library, runs tests on it and publishes it on the NuGet server")
@@ -40,11 +40,15 @@ namespace BuildScripts
             targetTree.GetTarget ("fetch.build.version")
                 .Do (TargetFetchBuildVersion);
 
+            targetTree.AddTarget ("dupfinder")
+                .SetDescription ("Runs R# dupfinder to find code duplicates")
+                .Do (TargetDupFinder);
+
             targetTree.AddTarget("tests")
                 .SetDescription("Runs tests on the project")
                 .Do (r =>
                     {
-                        TargetRunTests(r, "Syborg.Tests", ".dll");
+                        TargetRunTestsWithCoverage(r, "Syborg.Tests");
                     }).DependsOn ("load.solution");
         }
 
@@ -67,24 +71,40 @@ namespace BuildScripts
             context.WriteInfo ("The build version will be {0}", version);
         }
 
-        private static void TargetRunTests(ITaskContext context, string projectName, string extension)
+        private static void TargetDupFinder (ITaskContext context)
         {
-            VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
-            string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
-
-            VSProjectWithFileInfo project =
-                (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
-            FileFullPath projectTarget = project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
-                .AddFileName("{0}{1}", project.ProjectName, extension);
-
-            RunProgramTask task = new RunProgramTask(
-                @"packages\NUnit.Runners.2.6.3\tools\nunit-console.exe")
-                .AddArgument(projectTarget.ToString())
-                .AddArgument("/framework:net-4.0")
-                .AddArgument("/labels")
-                .AddArgument("/trace=Verbose")
-                .AddArgument("/nodots");
-            task.Execute(context);
+            RunDupFinderAnalysisTask task = new RunDupFinderAnalysisTask ();
+            task.Execute (context);
         }
+
+        private static void TargetRunTestsWithCoverage (ITaskContext context, string projectName)
+        {
+            NUnitWithDotCoverTask task = NUnitWithDotCoverTask.ForProject (
+                projectName,
+                @"packages\NUnit.Runners.2.6.3\tools\nunit-console.exe");
+            task.DotCoverFilters = "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*";
+            task.FailBuildOnViolations = false;
+            task.Execute (context);
+        }
+
+        //private static void TargetRunTests(ITaskContext context, string projectName, string extension)
+        //{
+        //    VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
+        //    string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
+
+        //    VSProjectWithFileInfo project =
+        //        (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
+        //    FileFullPath projectTarget = project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
+        //        .AddFileName("{0}{1}", project.ProjectName, extension);
+
+        //    RunProgramTask task = new RunProgramTask(
+        //        @"packages\NUnit.Runners.2.6.3\tools\nunit-console.exe")
+        //        .AddArgument(projectTarget.ToString())
+        //        .AddArgument("/framework:net-4.0")
+        //        .AddArgument("/labels")
+        //        .AddArgument("/trace=Verbose")
+        //        .AddArgument("/nodots");
+        //    task.Execute(context);
+        //}
     }
 }
