@@ -26,6 +26,7 @@ namespace Syborg.Commands
             this.fileSystem = fileSystem;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0"), System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
         public IWebCommandResult Execute (IWebContext context, WebRequestRouteMatch routeMatch)
         {
             // do not allow rooted (absolute) paths
@@ -42,7 +43,7 @@ namespace Syborg.Commands
             // do not allow access outside of the contents folder (and its children)
             fileFullPath = Path.GetFullPath(fileFullPath);
 
-            if (!fileFullPath.StartsWith(contentRootDirectory))
+            if (!fileFullPath.StartsWith(contentRootDirectory, StringComparison.Ordinal))
                 return new HttpStatusResult(HttpStatusCode.Forbidden);
 
             if (fileSystem.DoesFileExist(fileFullPath))
@@ -87,7 +88,7 @@ namespace Syborg.Commands
             // do not allow access outside of the contents folder (and its children)
             fileFullPath = Path.GetFullPath(fileFullPath);
 
-            if (!fileFullPath.StartsWith(contentRootDirectory))
+            if (!fileFullPath.StartsWith(contentRootDirectory, StringComparison.Ordinal))
                 throw new InvalidOperationException("Access outside of content directory not allowed");
 
             return fileSystem.DoesFileExist(fileFullPath);

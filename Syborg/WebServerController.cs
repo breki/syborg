@@ -2,6 +2,7 @@ using Syborg.Common;
 
 namespace Syborg
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WebServer")]
     public class WebServerController : IWebServerController
     {
         public WebServerController(ISignal serverStopSignal)

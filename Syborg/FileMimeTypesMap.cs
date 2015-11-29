@@ -23,6 +23,7 @@ namespace Syborg
             return this;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase"), System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public void RegisterMimeType(string fileExtension, string mimeType)
         {
             string fileExtensionLowercase = fileExtension.ToLower(CultureInfo.InvariantCulture);
@@ -33,6 +34,7 @@ namespace Syborg
             mimeTypes.Add (fileExtensionLowercase, mimeType);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
         public string GetContentType(string fileName)
         {
             string fileExtension = Path.GetExtension(fileName);

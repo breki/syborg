@@ -195,6 +195,7 @@ namespace Syborg.Common
             File.Move (sourceFileName, destinationFileName);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public Stream OpenFile (
             string fileName,
             FileMode fileMode,
@@ -206,21 +207,25 @@ namespace Syborg.Common
             return new FileStream (fileName, fileMode, fileAccess, fileShare, bufferSize, fileOptions);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public Stream OpenFileToRead (string fileName)
         {
             return File.Open (fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public Stream OpenFileToRead (string fileName, FileOptions fileOptions)
         {
             return new FileStream (fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 128 * 1024, fileOptions);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public Stream OpenFileToWrite (string fileName)
         {
             return File.Open (fileName, FileMode.Create, FileAccess.Write, FileShare.None);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public Stream OpenFileToWrite (string fileName, FileOptions fileOptions)
         {
             return new FileStream (fileName, FileMode.Create, FileAccess.Write, FileShare.None, 128 * 1024, fileOptions);

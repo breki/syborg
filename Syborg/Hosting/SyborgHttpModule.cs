@@ -13,22 +13,23 @@ namespace Syborg.Hosting
     {
         public const string KeyAppHost = "AppHost";
 
-        public void Init (HttpApplication application)
+        public void Init (HttpApplication context)
         {
             if (log.IsDebugEnabled)
-                log.DebugFormat("Init()");
+                log.Debug("Init()");
 
-            application.BeginRequest += Application_BeginRequest;
-            application.EndRequest += Application_EndRequest;
+            context.BeginRequest += Application_BeginRequest;
+            context.EndRequest += Application_EndRequest;
 
             if (log.IsDebugEnabled)
-                log.DebugFormat("Init() finished");
+                log.Debug("Init() finished");
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA1816:CallGCSuppressFinalizeCorrectly")]
         public void Dispose()
         {
             if (log.IsDebugEnabled)
-                log.DebugFormat("Dispose()");
+                log.Debug("Dispose()");
 
             Dispose(true);
             GC.SuppressFinalize(this);
@@ -141,7 +142,7 @@ namespace Syborg.Hosting
                     shouldLogTraffic = httpLog.IsErrorEnabled;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new NotSupportedException();
             }
 
             if (!shouldLogTraffic) 
@@ -162,7 +163,7 @@ namespace Syborg.Hosting
                     log.Warn(logString);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new NotSupportedException();
             }
         }
 

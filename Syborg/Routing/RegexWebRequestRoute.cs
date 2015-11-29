@@ -45,10 +45,10 @@ namespace Syborg.Routing
 
             if (applicationPath != null)
             {
-                if (!urlPath.StartsWith(applicationPath, StringComparison.InvariantCultureIgnoreCase))
+                if (!urlPath.StartsWith(applicationPath, StringComparison.OrdinalIgnoreCase))
                     return false;
 
-                bool endsWithSlash = applicationPath.EndsWith("/");
+                bool endsWithSlash = applicationPath.EndsWith("/", StringComparison.Ordinal);
                 int startIndex = applicationPath.Length - (endsWithSlash ? 1 : 0);
                 if (startIndex > urlPath.Length)
                     return false;

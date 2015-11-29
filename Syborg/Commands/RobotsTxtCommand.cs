@@ -10,6 +10,7 @@ namespace Syborg.Commands
 {
     public class RobotsTxtCommand : IWebCommand
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "sitemap")]
         public RobotsTxtCommand(IEnumerable<string> disallows, string sitemapRelativeUrl)
         {
             Contract.Requires(disallows != null);

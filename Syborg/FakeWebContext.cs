@@ -13,7 +13,7 @@ using Syborg.Razor;
 
 namespace Syborg
 {
-    public class FakeWebContext : IWebContext
+    public class FakeWebContext : IWebContext, IDisposable
     {
         public FakeWebContext (
             string applicationUrl,
@@ -69,6 +69,7 @@ namespace Syborg
             get { return responseStream; }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public NameValueCollection QueryString
         {
             get { return queryString; }
@@ -87,6 +88,7 @@ namespace Syborg
             get { return requestCookies; }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public NameValueCollection RequestHeaders
         {
             get { return requestHeaders; }
@@ -211,6 +213,28 @@ namespace Syborg
             RequestStream = new MemoryStream (Encoding.UTF8.GetBytes(body));
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                if (requestStream != null)
+                    requestStream.Dispose();
+                if (responseStream != null)
+                    responseStream.Dispose ();
+            }
+
+            disposed = true;
+        }
+
         private readonly string applicationUrl;
         private readonly string applicationPath;
         private readonly IFileSystem fileSystem;
@@ -225,5 +249,6 @@ namespace Syborg
         private readonly List<IWebPolicy> policies = new List<IWebPolicy>();
         private NameValueCollection queryString = new NameValueCollection();
         private IFileMimeTypesMap fileMimeTypesMap = new FileMimeTypesMap().RegisterStandardMimeTypes();
+        private bool disposed;
     }
 }

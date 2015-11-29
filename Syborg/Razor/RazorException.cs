@@ -4,6 +4,7 @@ using System.Web.Razor;
 
 namespace Syborg.Razor
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
     public class RazorException : Exception
     {
         public RazorException(GeneratorResults generatorResults)

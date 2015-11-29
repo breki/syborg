@@ -10,6 +10,7 @@ namespace Syborg.Hosting
 {
     public class SyborgHttpModuleAppHost : IDisposable
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WebServer")]
         public IWebServerConfiguration WebServerConfiguration
         {
             get { return webServerConfiguration; }
@@ -80,6 +81,7 @@ namespace Syborg.Hosting
             GC.SuppressFinalize(this);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "webServer")]
         protected void Initialize(
             IWebServerConfiguration webServerConfiguration,
             IFileSystem fileSystem,

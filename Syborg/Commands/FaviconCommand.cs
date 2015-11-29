@@ -20,6 +20,7 @@ namespace Syborg.Commands
             this.fileSystem = fileSystem;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0"), System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
         public IWebCommandResult Execute (IWebContext context, WebRequestRouteMatch routeMatch)
         {
             string path = "favicon-" + routeMatch["path"];
@@ -37,7 +38,7 @@ namespace Syborg.Commands
             // do not allow access outside of the contents folder (and its children)
             fileFullPath = Path.GetFullPath(fileFullPath);
 
-            if (!fileFullPath.StartsWith (faviconsDirectory))
+            if (!fileFullPath.StartsWith (faviconsDirectory, StringComparison.Ordinal))
                 return new HttpStatusResult(HttpStatusCode.Forbidden);
 
             if (fileSystem.DoesFileExist (fileFullPath))

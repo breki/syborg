@@ -19,6 +19,7 @@ namespace Syborg
 
         public const string ContentTypeApplicationJson = "application/json";
         public const string ContentTypeApplicationPdf = "application/pdf";
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ms")]
         public const string ContentTypeApplicationVndMsFontObjects = "application/vnd.ms-fontobject";
         public const string ContentTypeApplicationXFontTtf = "application/x-font-ttf";
         public const string ContentTypeApplicationXFontWoff = "application/x-font-woff";

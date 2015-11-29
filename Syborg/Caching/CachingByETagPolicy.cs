@@ -24,6 +24,7 @@ namespace Syborg.Caching
             this.etagFunc = etagFunc;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "2"), System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
         public void ProcessRequest (object resourceData, IWebContext context, Action<object, IWebContext> returnResourceAction)
         {
             Tuple<string, DateTime?> tuple = etagFunc();
@@ -42,7 +43,7 @@ namespace Syborg.Caching
                 if (etag == null)
                     break;
 
-                if (string.Compare(etag, ifNoneMatch, StringComparison.InvariantCulture) == 0)
+                if (string.Compare(etag, ifNoneMatch, StringComparison.Ordinal) == 0)
                     resourceNotModified = true;
             }
             while (false);
