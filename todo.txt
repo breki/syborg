@@ -1,6 +1,7 @@
-- add license file
+- use Flubu NuGet
+- add dupFinder and dotCover into build
+- NUnit 3.0?
 - what to do with common code?
-- remove build configurations that are not needed
 - add R# annotations
 - create nuget spec
 - add nuget publishing code in the build script

@@ -5,4 +5,3 @@
 // associated with an assembly.
 [assembly: AssemblyTitle ("Syborg.Tests")]
 [assembly: AssemblyDescription ("")]
-[assembly: AssemblyVersion ("1.0.0.0")]
