@@ -7,9 +7,6 @@ using Flubu.Tasks.Processes;
 
 //css_ref Flubu.dll;
 //css_ref Flubu.Contrib.dll;
-//css_ref log4net.dll;
-//css_ref ICSharpCode.SharpZipLib.dll;
-//css_ref Brejc.Common.Library.dll;
 
 namespace BuildScripts
 {
@@ -17,9 +14,12 @@ namespace BuildScripts
     {
         public static int Main(string[] args)
         {
-            TargetTree targetTree = new TargetTree();
-            BuildTargets.FillBuildTargets(targetTree);
+            DefaultBuildScriptRunner runner = new DefaultBuildScriptRunner(ConstructTargets, ConfigureBuildProperties);
+            return runner.Run(args);
+        }
 
+        private static void ConstructTargets (TargetTree targetTree)
+        {
             targetTree.AddTarget("clean.output.debug")
                 .DependsOn("load.solution")
                 .Do(c =>
@@ -28,32 +28,14 @@ namespace BuildScripts
                             targetTree.GetTarget("clean.output").Execute(c);
                         });
 
-            targetTree.AddTarget ("set.full.config").SetAsHidden ()
-                .Do (c => c.Properties.Set (BuildProps.BuildConfiguration, "Full"));
-
             targetTree.AddTarget ("rebuild")
                 .SetAsDefault ()
-                .SetDescription ("Builds the product, packages it, deploys and tests it on a local instance")
-                .DependsOn ("compile", "tests", "package", "system.tests");
-
-            targetTree.AddTarget ("rebuild.local.full")
-                .SetDescription ("Builds the product in the Full configuration (code analysis, code contracts), tests it and prepares the installation packages (local developer build)")
-                .DependsOn ("set.full.config", "rebuild");
-
-            targetTree.AddTarget ("set.full-syborg.config").SetAsHidden ()
-                .Do (c => c.Properties.Set (BuildProps.BuildConfiguration, "Full-Syborg"));
-            targetTree.AddTarget ("rebuild.syborg")
-                .SetDescription ("Builds Syborg, packages it, deploys and tests it on a local instance")
-                .DependsOn ("set.full-syborg.config", "compile", "tests.syborg", "package.syborg");
+                .SetDescription ("Builds the library and runs tests on it")
+                .DependsOn ("compile", "tests");
 
             targetTree.AddTarget("release")
-                .SetDescription("Builds the product, packages it, deploys and tests it on a local instance and then uploads it to the production server")
-                //.DependsOn ("compile", "package", "upload.package");
-                .DependsOn ("rebuild", "upload.package");
-
-            targetTree.AddTarget("quick.deploy")
-                .SetDescription("Builds the product, packages and uploads it to production server (without tests!)")
-                .DependsOn ("compile", "package", "upload.package");
+                .SetDescription ("Builds the library, runs tests on it and publishes it on the NuGet server")
+                .DependsOn ("rebuild");
 
             targetTree.GetTarget ("fetch.build.version")
                 .Do (TargetFetchBuildVersion);
@@ -64,54 +46,17 @@ namespace BuildScripts
                     {
                         TargetRunTests(r, "Syborg.Tests", ".dll");
                     }).DependsOn ("load.solution");
+        }
 
-            using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), args, targetTree))
-            {
-                BuildTargets.FillDefaultProperties(session);
-                session.Start(BuildTargets.OnBuildFinished);
-
-                session.AddLogger(new MulticoloredConsoleLogger(Console.Out));
-
-                session.Properties.Set(BuildProps.CompanyName, "Igor Brejc");
-                session.Properties.Set(BuildProps.CompanyCopyright, "Copyright (C) 2014-2015 Igor Brejc");
-                session.Properties.Set(BuildProps.ProductId, "Syborg");
-                session.Properties.Set (BuildProps.ProductName, "Syborg");
-                session.Properties.Set (BuildProps.SolutionFileName, "Syborg.sln");
-                session.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net40VersionNumber);
-                session.Properties.Set(BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
-
-                try
-                {
-                    // actual run
-                    if (args.Length == 0)
-                        targetTree.RunTarget(session, targetTree.DefaultTarget.TargetName);
-                    else
-                    {
-                        string targetName = args[0];
-                        if (false == targetTree.HasTarget(targetName))
-                        {
-                            session.WriteError("ERROR: The target '{0}' does not exist", targetName);
-                            targetTree.RunTarget(session, "help");
-                            return 2;
-                        }
-
-                        targetTree.RunTarget(session, args[0]);
-                    }
-
-                    session.Complete();
-
-                    return 0;
-                }
-                catch (TaskExecutionException)
-                {
-                    return 1;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    return 1;
-                }
-            }
+        private static void ConfigureBuildProperties (TaskSession session)
+        {
+            session.Properties.Set (BuildProps.CompanyName, "Igor Brejc");
+            session.Properties.Set (BuildProps.CompanyCopyright, "Copyright (C) 2014-2015 Igor Brejc");
+            session.Properties.Set (BuildProps.ProductId, "Syborg");
+            session.Properties.Set (BuildProps.ProductName, "Syborg");
+            session.Properties.Set (BuildProps.SolutionFileName, "Syborg.sln");
+            session.Properties.Set (BuildProps.TargetDotNetVersion, FlubuEnvironment.Net40VersionNumber);
+            session.Properties.Set (BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
         }
 
         private static void TargetFetchBuildVersion (ITaskContext context)
