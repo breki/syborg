@@ -6,6 +6,8 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using LibroLib;
+using LibroLib.FileSystem;
 using log4net;
 using Syborg.CommandResults;
 using Syborg.Common;
