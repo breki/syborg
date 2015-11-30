@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using LibroLib.FileSystem;
+using LibroLib.Misc;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Syborg.Caching;

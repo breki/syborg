@@ -279,10 +279,7 @@
     <Compile Include="Commands\IContentRepository.cs" />
     <Compile Include="Commands\RobotsTxtCommand.cs" />
     <Compile Include="Common\ISignal.cs" />
-    <Compile Include="Common\ITimeService.cs" />
     <Compile Include="Common\IWaitHandle.cs" />
-    <Compile Include="Common\RealTimeService.cs" />
-    <Compile Include="Common\TimeMachine.cs" />
     <Compile Include="FakeCookie.cs" />
     <Compile Include="FakeCookiesCollection.cs" />
     <Compile Include="FakeWebContext.cs" />
