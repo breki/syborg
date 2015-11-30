@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using LibroLib.FileSystem;
 using log4net;
 using Syborg.Common;
 using Syborg.Razor;

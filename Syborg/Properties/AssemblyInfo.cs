@@ -6,4 +6,4 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyTitle ("Syborg")]
 [assembly: AssemblyDescription ("")]
-[assembly: CLSCompliant (true)]
+[assembly: CLSCompliant (false)]

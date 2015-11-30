@@ -232,6 +232,10 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LibroLib.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=565e9639e336040e, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibroLib.Common.1.0.1\lib\net40\LibroLib.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=1.2.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.4\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -274,22 +278,11 @@
     <Compile Include="Commands\FaviconCommand.cs" />
     <Compile Include="Commands\IContentRepository.cs" />
     <Compile Include="Commands\RobotsTxtCommand.cs" />
-    <Compile Include="Common\ApplicationInfo.cs" />
-    <Compile Include="Common\DummyApplicationInfo.cs" />
-    <Compile Include="Common\IApplicationInfo.cs" />
-    <Compile Include="Common\IDirectoryInformation.cs" />
-    <Compile Include="Common\IFileEntryInformation.cs" />
-    <Compile Include="Common\IFileInformation.cs" />
-    <Compile Include="Common\IFileSystem.cs" />
     <Compile Include="Common\ISignal.cs" />
     <Compile Include="Common\ITimeService.cs" />
     <Compile Include="Common\IWaitHandle.cs" />
     <Compile Include="Common\RealTimeService.cs" />
-    <Compile Include="Common\StringEx.cs" />
     <Compile Include="Common\TimeMachine.cs" />
-    <Compile Include="Common\WindowsDirectoryInformation.cs" />
-    <Compile Include="Common\WindowsFileInformation.cs" />
-    <Compile Include="Common\WindowsFileSystem.cs" />
     <Compile Include="FakeCookie.cs" />
     <Compile Include="FakeCookiesCollection.cs" />
     <Compile Include="FakeWebContext.cs" />
