@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text;
 using LibroLib.FileSystem;
+using LibroLib.Misc;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Syborg.CommandResults;
