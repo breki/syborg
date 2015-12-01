@@ -6,7 +6,6 @@ using NUnit.Framework;
 using Rhino.Mocks;
 using Syborg.Caching;
 using Syborg.CommandResults;
-using Syborg.Common;
 
 namespace Syborg.Tests.WebCommandResultTests
 {

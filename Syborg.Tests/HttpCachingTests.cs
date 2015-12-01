@@ -5,7 +5,6 @@ using LibroLib.Misc;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Syborg.Caching;
-using Syborg.Common;
 
 namespace Syborg.Tests
 {

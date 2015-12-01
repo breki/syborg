@@ -6,7 +6,6 @@ using LibroLib.Misc;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Syborg.CommandResults;
-using Syborg.Common;
 
 namespace Syborg.Tests.WebCommandResultTests
 {

@@ -2,7 +2,6 @@
 using System.Diagnostics.Contracts;
 using System.Net;
 using LibroLib;
-using Syborg.Common;
 
 namespace Syborg.Caching
 {

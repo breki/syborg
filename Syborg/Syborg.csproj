@@ -233,7 +233,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LibroLib.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=565e9639e336040e, processorArchitecture=MSIL">
-      <HintPath>..\packages\LibroLib.Common.1.0.1\lib\net40\LibroLib.Common.dll</HintPath>
+      <HintPath>..\packages\LibroLib.Common.1.0.2.0\lib\net40\LibroLib.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -278,8 +278,6 @@
     <Compile Include="Commands\FaviconCommand.cs" />
     <Compile Include="Commands\IContentRepository.cs" />
     <Compile Include="Commands\RobotsTxtCommand.cs" />
-    <Compile Include="Common\ISignal.cs" />
-    <Compile Include="Common\IWaitHandle.cs" />
     <Compile Include="FakeCookie.cs" />
     <Compile Include="FakeCookiesCollection.cs" />
     <Compile Include="FakeWebContext.cs" />

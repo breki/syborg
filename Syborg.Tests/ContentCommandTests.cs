@@ -8,7 +8,6 @@ using Rhino.Mocks;
 using Syborg.Caching;
 using Syborg.CommandResults;
 using Syborg.Commands;
-using Syborg.Common;
 using Syborg.Routing;
 
 namespace Syborg.Tests
