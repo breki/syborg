@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using Flubu;
 using Flubu.Builds;
 using Flubu.Builds.Tasks.AnalysisTasks;
+using Flubu.Builds.Tasks.NuGetTasks;
 using Flubu.Builds.Tasks.TestingTasks;
 using Flubu.Targeting;
 
@@ -35,7 +37,7 @@ namespace BuildScripts
 
             targetTree.AddTarget("release")
                 .SetDescription ("Builds the library, runs tests on it and publishes it on the NuGet server")
-                .DependsOn ("rebuild");
+                .DependsOn ("rebuild", "nuget");
 
             targetTree.GetTarget ("fetch.build.version")
                 .Do (TargetFetchBuildVersion);
@@ -50,6 +52,13 @@ namespace BuildScripts
                     {
                         TargetRunTestsWithCoverage(r, "Syborg.Tests");
                     }).DependsOn ("load.solution");
+
+            targetTree.AddTarget ("nuget")
+                .SetDescription ("Produces NuGet packages for the library and publishes them to the NuGet server")
+                .Do (c =>
+                {
+                    TargetNuGet (c, "Syborg");
+                }).DependsOn ("prepare.build.dir", "fetch.build.version");
         }
 
         private static void ConfigureBuildProperties (TaskSession session)
@@ -79,32 +88,23 @@ namespace BuildScripts
 
         private static void TargetRunTestsWithCoverage (ITaskContext context, string projectName)
         {
-            NUnitWithDotCoverTask task = NUnitWithDotCoverTask.ForProject (
-                projectName,
+            NUnitWithDotCoverTask task = new NUnitWithDotCoverTask (
+                Path.Combine (projectName, "bin", context.Properties[BuildProps.BuildConfiguration], projectName) + ".dll",
                 @"packages\NUnit.Runners.2.6.3\tools\nunit-console.exe");
             task.DotCoverFilters = "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*";
             task.FailBuildOnViolations = false;
             task.Execute (context);
         }
 
-        //private static void TargetRunTests(ITaskContext context, string projectName, string extension)
-        //{
-        //    VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
-        //    string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
+        private static void TargetNuGet (ITaskContext context, string projectName)
+        {
+            string nuspecFileName = Path.Combine (projectName, projectName) + ".nuspec";
 
-        //    VSProjectWithFileInfo project =
-        //        (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
-        //    FileFullPath projectTarget = project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
-        //        .AddFileName("{0}{1}", project.ProjectName, extension);
-
-        //    RunProgramTask task = new RunProgramTask(
-        //        @"packages\NUnit.Runners.2.6.3\tools\nunit-console.exe")
-        //        .AddArgument(projectTarget.ToString())
-        //        .AddArgument("/framework:net-4.0")
-        //        .AddArgument("/labels")
-        //        .AddArgument("/trace=Verbose")
-        //        .AddArgument("/nodots");
-        //    task.Execute(context);
-        //}
+            PublishNuGetPackageTask publishTask = new PublishNuGetPackageTask (
+                projectName, nuspecFileName);
+            publishTask.BasePath = Path.GetFullPath (projectName);
+            publishTask.ForApiKeyUseEnvironmentVariable ();
+            publishTask.Execute (context);
+        }
     }
 }
