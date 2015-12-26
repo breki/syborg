@@ -14,7 +14,7 @@ namespace Syborg
         public static DateTime? FromRfc2822DateTime(string value)
         {
             DateTime result;
-            if (DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
+            if (DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out result))
                 return result;
 
             return null;
