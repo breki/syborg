@@ -1,0 +1,35 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Syborg</id>
+    <version>$version$</version>
+    <authors>Igor Brejc</authors>
+    <projectUrl>https://bitbucket.org/breki-os/syborg</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Lightweight web application framework</description>
+    <copyright>Copyright 2015-2016 Igor Brejc</copyright>
+    <tags>web</tags>
+    <frameworkAssemblies>
+    </frameworkAssemblies>
+
+    <references>
+      <group>
+        <reference file="Syborg.dll" />
+      </group>
+    </references>
+
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="7.0.1" />
+      <dependency id="LibroLib.Common" version="1.0.2.0" />
+      <dependency id="log4net" version="2.0.4" />
+      <dependency id="System.Web.Razor.Unofficial" version="2.0.2" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\Syborg.dll" target="lib\net40" />
+    <file src="bin\Release\Syborg.pdb" target="lib\net40" />
+    <file src="bin\Release\Syborg.xml" target="lib\net40" />
+    <file src="bin\Release\CodeContracts\Syborg.Contracts.dll" target="lib\net40" />
+    <file src="bin\Release\CodeContracts\Syborg.Contracts.pdb" target="lib\net40" />
+  </files>
+</package>
