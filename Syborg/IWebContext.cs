@@ -26,7 +26,7 @@ namespace Syborg
         /// </summary>
         /// <example>For example, if the complete <see cref="Url"/> is 'http://localhost/azurite/map/maribor',
         /// then the <see cref="ApplicationUrl"/> will be 'http://localhost/Azurite'.</example>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings"), SuppressMessage ("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage ("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings"), SuppressMessage ("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         string ApplicationUrl { get; }
 
         IWebServerConfiguration Configuration { get; }
@@ -45,7 +45,7 @@ namespace Syborg
         /// </summary>
         /// <example>For example, if the complete <see cref="Url"/> is 'http://localhost/azurite/map/maribor',
         /// then the <see cref="RawUrl"/> will be '/azurite/map/maribor'.</example>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings"), SuppressMessage ("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage ("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings"), SuppressMessage ("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         string RawUrl { get; }
 
         string RequestContentType { get; }
