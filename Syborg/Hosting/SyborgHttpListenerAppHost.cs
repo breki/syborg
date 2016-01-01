@@ -52,6 +52,21 @@ namespace Syborg.Hosting
             this.policies.AddRange(policies);
         }
 
+        public string ExternalUrl
+        {
+            get { return externalUrl; }
+        }
+
+        public int ServerPortNumber
+        {
+            get { return serverPortNumber; }
+        }
+
+        public string ApplicationPath
+        {
+            get { return applicationPath; }
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WebServer"), System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string FullWebServerUrl
         {
