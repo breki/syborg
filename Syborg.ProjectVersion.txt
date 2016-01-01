@@ -1,1 +1,4 @@
+1.0.1.0
+- SyborgHttpListenerAppHost now exposes ExternalUrl, ServerPortNumber and ApplicationPath read-only properties
+
 1.0.0.0
