@@ -1,5 +1,4 @@
-- implement in-memory caching of files for ContentCommand
-	- how to integrate this with FileResult?
+- how to test Syborg stuff that needs web server running?
 
 - what to do with common code?	
 	- add missing classes

@@ -195,7 +195,7 @@ namespace Syborg.CommandResults
             context.ResponseContentLength = fileData.Length;
 
             if (fileInfo.TransferEncoding != null)
-                context.ResponseHeaders.Add(HttpConsts.HeaderTransferEncoding, fileInfo.TransferEncoding);
+                context.AddHeader(HttpConsts.HeaderTransferEncoding, fileInfo.TransferEncoding);
 
             using (BinaryWriter responseWriter = new BinaryWriter (context.ResponseStream))
             {
@@ -211,7 +211,7 @@ namespace Syborg.CommandResults
             Contract.Ensures(Contract.Result<byte[]>() != null);
 
             fileData = CompressByteArray (fileData);
-            context.ResponseHeaders.Add(HttpConsts.HeaderTransferEncoding, "gzip");
+            context.AddHeader(HttpConsts.HeaderTransferEncoding, "gzip");
             return fileData;
         }
 
@@ -220,12 +220,12 @@ namespace Syborg.CommandResults
             Contract.Requires (data != null);
             Contract.Ensures(Contract.Result<byte[]>() != null);
 
-            using (MemoryStream outputStream = new MemoryStream (data))
-            using (GZipStream compressStream = new GZipStream(outputStream, CompressionMode.Compress))
+            using (MemoryStream outputStream = new MemoryStream ())
             {
-                compressStream.Write (data, 0, data.Length);
-                compressStream.Flush();
-                return outputStream.ToArray();
+                using (GZipStream compressStream = new GZipStream (outputStream, CompressionMode.Compress))
+                    compressStream.Write (data, 0, data.Length);
+
+                return outputStream.ToArray ();
             }
         }
 
