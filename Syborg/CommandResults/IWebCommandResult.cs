@@ -9,6 +9,7 @@ namespace Syborg.CommandResults
     }
 
     [ContractClassFor(typeof(IWebCommandResult))]
+    // ReSharper disable once InconsistentNaming
     internal abstract class IWebCommandResultContract : IWebCommandResult
     {
         public void Apply(IWebContext context)

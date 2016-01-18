@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using LibroLib.FileSystem;
 using LibroLib.Misc;
@@ -115,6 +116,24 @@ namespace Syborg.Tests
             fileSystem.Stub(x => x.DoesFileExist(Path.GetFullPath(Path.Combine(ContentRootDirectory, SampleFilePath))))
                 .Return(true);
             Assert.IsTrue(cmd.DoesFileExist(SampleFilePath));
+        }
+
+        [Test]
+        public void FileShouldBeCompressedIfRequested()
+        {
+            context.RequestHeaders.Add(HttpConsts.HeaderAcceptEncoding, "gzip");
+
+            routeMatch.AddParameter ("path", @"somedir/somepath.png");
+            const string ExpectedFileName = @"d:\somedir\contents\somedir\somepath.png";
+            fileSystem.Stub (x => x.DoesFileExist (ExpectedFileName)).Return (true);
+
+            IWebCommandResult result = cmd.Execute (context, routeMatch);
+            FileResult fileResult = (FileResult)result;
+            //Assert.IsTrue(
+            //    fileResult.Headers.AllKeys.Any(x => x == HttpConsts.HeaderTransferEncoding && fileResult.Headers[]));
+            Assert.AreEqual (ExpectedFileName, fileResult.FileName);
+
+            throw new NotImplementedException("todo next:");
         }
 
         [SetUp]

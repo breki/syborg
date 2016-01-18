@@ -24,6 +24,7 @@ namespace Syborg.Tests.WebCommandResultTests
 
             Assert.AreEqual((int)HttpStatusCode.OK, context.StatusCode);
             Assert.AreEqual(HttpConsts.ContentTypeImagePng, context.ResponseContentType);
+            Assert.AreEqual (null, context.ResponseHeaders[HttpConsts.HeaderTransferEncoding]);
         }
 
         [Test]
@@ -83,6 +84,27 @@ namespace Syborg.Tests.WebCommandResultTests
 
             result.Apply (context);
             Assert.AreEqual ((int)HttpStatusCode.NotModified, context.StatusCode);
+        }
+
+        [TestCase("gzip")]
+        [TestCase("gzip,compress")]
+        [TestCase(" gzip ,deflate")]
+        [TestCase ("compress, gzip ,")]
+        public void FileShouldBeCompressedIfRequested (string acceptEncodingValue)
+        {
+            context.RequestHeaders.Add(HttpConsts.HeaderAcceptEncoding, acceptEncodingValue);
+
+            fileSystem.Stub (x => x.DoesFileExist (FileName)).Return (true);
+            byte[] fileBytes = new byte[100];
+            fileSystem.Stub (x => x.ReadFileAsBytes (FileName)).Return (fileBytes);
+
+            ICachingPolicy cachingPolicy = new NoCachingPolicy ();
+            FileResult result = new FileResult (FileName, cachingPolicy);
+            result.Apply (context);
+
+            Assert.AreEqual ((int)HttpStatusCode.OK, context.StatusCode);
+            Assert.AreEqual ("gzip", context.ResponseHeaders[HttpConsts.HeaderTransferEncoding]);
+            Assert.AreEqual (HttpConsts.ContentTypeImagePng, context.ResponseContentType);
         }
 
         [SetUp]
