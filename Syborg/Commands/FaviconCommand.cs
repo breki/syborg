@@ -6,6 +6,7 @@ using LibroLib.FileSystem;
 using log4net;
 using Syborg.Caching;
 using Syborg.CommandResults;
+using Syborg.ContentHandling;
 using Syborg.Routing;
 
 namespace Syborg.Commands
@@ -14,10 +15,12 @@ namespace Syborg.Commands
     {
         public FaviconCommand (
             string faviconsDirectory,
-            IFileSystem fileSystem)
+            IFileSystem fileSystem,
+            IFileCache fileCache)
         {
             this.faviconsDirectory = faviconsDirectory;
             this.fileSystem = fileSystem;
+            this.fileCache = fileCache;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0"), System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
@@ -52,6 +55,7 @@ namespace Syborg.Commands
 
                 FileResult fileResult = new FileResult (fileFullPath, cachingPolicy);
                 fileResult.LoggingSeverity = LoggingSeverity.Verbose;
+                fileResult.FileCache = fileCache;
                 return fileResult;
             }
 
@@ -74,6 +78,7 @@ namespace Syborg.Commands
 
         private readonly string faviconsDirectory;
         private readonly IFileSystem fileSystem;
+        private readonly IFileCache fileCache;
         private static readonly ILog log = LogManager.GetLogger (MethodBase.GetCurrentMethod ().DeclaringType);
     }
 }

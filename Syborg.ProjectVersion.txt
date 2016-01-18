@@ -1,4 +1,6 @@
 1.1.0.0
+- introduced IFileCache into FileResult and ContentCommand to support in-memory caching of content files
+	instead of reading them from the disk all the time
 - FileResult now supports gzip compression if requested by client
 - migrated tests to NUnit 3.0
 

@@ -10,21 +10,46 @@ using LibroLib.FileSystem;
 using log4net;
 using Syborg.Caching;
 using Syborg.CommandResults;
+using Syborg.ContentHandling;
 using Syborg.Routing;
 
 namespace Syborg.Commands
 {
     public class ContentCommand : IWebCommand, IContentRepository
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContentCommand"/> class. 
+        /// </summary>
+        /// <param name="contentRootDirectory">
+        /// The path to the root content directory.
+        /// </param>
+        /// <param name="fileSystem">
+        /// Instance of the <see cref="IFileSystem"/> service.
+        /// </param>
+        /// <param name="fileCache">
+        /// Instance of the <see cref="IFileCache"/> service. If <c>null</c>, no file caching will be performed.
+        /// </param>
         public ContentCommand (
             string contentRootDirectory,
-            IFileSystem fileSystem)
+            IFileSystem fileSystem,
+            IFileCache fileCache)
         {
-            if (contentRootDirectory == null)
-                throw new ArgumentNullException ("contentRootDirectory");
+            Contract.Requires (contentRootDirectory != null);
+            Contract.Requires(fileSystem != null);
 
             this.contentRootDirectory = contentRootDirectory;
             this.fileSystem = fileSystem;
+            this.fileCache = fileCache;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gzip compression is supported for files returned by this <see cref="ContentCommand"/>.
+        /// </summary>
+        /// <remarks>gzip is enabled by default.</remarks>
+        public bool AllowGzipCompression
+        {
+            get { return allowGzipCompression; }
+            set { allowGzipCompression = value; }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0"), System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
@@ -67,6 +92,8 @@ namespace Syborg.Commands
                     log.DebugFormat("Returning contents of the file '{0}'", fileFullPath);
 
                 FileResult result = new FileResult(fileFullPath, cachingPolicy);
+                result.AllowGzipCompression = allowGzipCompression;
+                result.FileCache = fileCache;
                 result.LoggingSeverity = LoggingSeverity.Verbose;
                 return result;
             }
@@ -102,6 +129,7 @@ namespace Syborg.Commands
         private DateTime? FileLastModifiedFunc(object fileNameObj)
         {
             Contract.Requires(fileNameObj != null);
+
             string fileName = (string)fileNameObj;
             if (!fileSystem.DoesFileExist(fileName))
                 return null;
@@ -126,7 +154,9 @@ namespace Syborg.Commands
 
         private readonly string contentRootDirectory;
         private readonly IFileSystem fileSystem;
+        private readonly IFileCache fileCache;
         private readonly List<CachingRule> cachingRules = new List<CachingRule>();
+        private bool allowGzipCompression = true;
         private static readonly ILog log = LogManager.GetLogger (MethodBase.GetCurrentMethod ().DeclaringType);
 
         private class CachingRule
