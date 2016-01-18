@@ -1,5 +1,7 @@
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using LibroLib;
@@ -80,6 +82,8 @@ namespace Syborg.CommandResults
 
                 SetContentTypeForRequestedFile(context, fileNameUsed);
 
+                fileData = CompressFileIfRequested(context, fileData);
+
                 context.StatusCode = (int)HttpStatusCode.OK;
                 context.ResponseContentLength = fileData.Length;
 
@@ -97,6 +101,37 @@ namespace Syborg.CommandResults
 
             if (log.IsDebugEnabled)
                 log.DebugFormat ("ReturnFile (fileName='{0}') finished", fileNameUsed);
+        }
+
+        private static byte[] CompressFileIfRequested(IWebContext context, byte[] fileData)
+        {
+            bool compressFile = false;
+            string acceptEncodingHeaderValue = context.RequestHeaders[HttpConsts.HeaderAcceptEncoding];
+            if (acceptEncodingHeaderValue != null)
+            {
+                string[] acceptedEncodings = acceptEncodingHeaderValue.Split(',');
+                if (acceptedEncodings.Any(x => x.Trim() == "gzip"))
+                    compressFile = true;
+            }
+
+            if (compressFile)
+            {
+                fileData = CompressByteArray(fileData);
+                context.ResponseHeaders.Add(HttpConsts.HeaderTransferEncoding, "gzip");
+            }
+
+            return fileData;
+        }
+
+        private static byte[] CompressByteArray(byte[] data)
+        {
+            using (MemoryStream outputStream = new MemoryStream(data))
+            using (GZipStream compressStream = new GZipStream(outputStream, CompressionMode.Compress))
+            {
+                compressStream.Write (data, 0, data.Length);
+                compressStream.Flush();
+                return outputStream.ToArray();
+            }
         }
 
         private readonly string fileName;

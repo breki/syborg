@@ -2,6 +2,7 @@ namespace Syborg
 {
     public static class HttpConsts
     {
+        public const string HeaderAcceptEncoding = "Accept-Encoding";
         public const string HeaderAge = "Age";
         public const string HeaderCacheControl = "Cache-Control";
         public const string HeaderContentDisposition = "Content-Disposition";
@@ -16,6 +17,7 @@ namespace Syborg
         public const string HeaderLastModified = "Last-Modified";
         public const string HeaderRetryAfter = "Retry-After";
         public const string HeaderStrictTransportSecurity = "Strict-Transport-Security";
+        public const string HeaderTransferEncoding = "Transfer-Encoding";
 
         public const string ContentTypeApplicationJson = "application/json";
         public const string ContentTypeApplicationPdf = "application/pdf";
