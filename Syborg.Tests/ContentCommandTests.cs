@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using LibroLib.FileSystem;
 using LibroLib.Misc;
@@ -9,6 +8,7 @@ using Rhino.Mocks;
 using Syborg.Caching;
 using Syborg.CommandResults;
 using Syborg.Commands;
+using Syborg.ContentHandling;
 using Syborg.Routing;
 
 namespace Syborg.Tests
@@ -140,7 +140,8 @@ namespace Syborg.Tests
         public void Setup()
         {
             fileSystem = MockRepository.GenerateStub<IFileSystem>();
-            cmd = new ContentCommand(ContentRootDirectory, fileSystem);
+            fileCache = null;
+            cmd = new ContentCommand(ContentRootDirectory, fileSystem, fileCache);
 
             IWebServerConfiguration webServerConfiguration = MockRepository.GenerateStub<IWebServerConfiguration>();
 
@@ -156,6 +157,7 @@ namespace Syborg.Tests
         private FakeWebContext context;
         private WebRequestRouteMatch routeMatch;
         private IFileSystem fileSystem;
+        private IFileCache fileCache;
         private ITimeService timeService;
         private DateTime now;
         private const string ContentRootDirectory = @"d:\somedir\contents";

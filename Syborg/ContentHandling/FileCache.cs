@@ -12,12 +12,17 @@ namespace Syborg.ContentHandling
     {
         public long CachedFilesTotalSize
         {
-            get { return cache.Sum(x => x.Value.FileData.Length); }
+            get
+            {
+                lock (cache)
+                    return cache.Sum(x => x.Value.FileData.Length);
+            }
         }
 
         public void CacheFile(string fileName, byte[] fileData, string transferEncoding = null)
         {
-            cache[new Tuple<string, string>(fileName, transferEncoding)] = new CachableFileInfo(fileName, fileData, transferEncoding);
+            lock (cache)
+                cache[new Tuple<string, string>(fileName, transferEncoding)] = new CachableFileInfo (fileName, fileData, transferEncoding);
 
             if (log.IsDebugEnabled)
                 log.DebugFormat(
@@ -31,7 +36,8 @@ namespace Syborg.ContentHandling
 
         public bool TryGetFile(string fileName, string transferEncoding, out CachableFileInfo fileInfo)
         {
-            return cache.TryGetValue(new Tuple<string, string>(fileName, transferEncoding), out fileInfo);
+            lock (cache)
+                return cache.TryGetValue (new Tuple<string, string>(fileName, transferEncoding), out fileInfo);
         }
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
