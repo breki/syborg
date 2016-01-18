@@ -73,7 +73,6 @@ namespace BuildScripts
         private static void TargetFetchBuildVersion (ITaskContext context)
         {
             Version version = BuildTargets.FetchBuildVersionFromFile (context);
-            version = new Version (version.Major, version.Minor, BuildTargets.FetchBuildNumberFromFile (context));
             context.Properties.Set (BuildProps.BuildVersion, version);
             context.WriteInfo ("The build version will be {0}", version);
         }
