@@ -121,7 +121,7 @@
     <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
-    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <CodeContractsAnalysisWarningLevel>2</CodeContractsAnalysisWarningLevel>
     <DocumentationFile>bin\Release\Syborg.XML</DocumentationFile>
     <WarningsAsErrors>
     </WarningsAsErrors>
@@ -242,16 +242,16 @@
     <AssemblyOriginatorKeyFile>Syborg.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibroLib.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=565e9639e336040e, processorArchitecture=MSIL">
-      <HintPath>..\packages\LibroLib.Common.1.0.2.0\lib\net40\LibroLib.Common.dll</HintPath>
+    <Reference Include="LibroLib.Common, Version=1.1.0.0, Culture=neutral, PublicKeyToken=565e9639e336040e, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibroLib.Common.1.1.1.0\lib\net40\LibroLib.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net, Version=1.2.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.4\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -288,6 +288,9 @@
     <Compile Include="Commands\FaviconCommand.cs" />
     <Compile Include="Commands\IContentRepository.cs" />
     <Compile Include="Commands\RobotsTxtCommand.cs" />
+    <Compile Include="ContentHandling\CachableFileInfo.cs" />
+    <Compile Include="ContentHandling\FileCache.cs" />
+    <Compile Include="ContentHandling\IFileCache.cs" />
     <Compile Include="FakeCookie.cs" />
     <Compile Include="FakeCookiesCollection.cs" />
     <Compile Include="FakeWebContext.cs" />

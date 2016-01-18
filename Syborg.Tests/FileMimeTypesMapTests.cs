@@ -31,11 +31,12 @@ namespace Syborg.Tests
             Assert.AreEqual(HttpConsts.ContentTypeTextPlain, map.GetContentType("somewhere/else.TXT"));
         }
 
-        [Test, ExpectedException(typeof(InvalidOperationException))]
+        [Test]
         public void FileExtensionRegisteredTwice()
         {
             map.RegisterMimeType (".txt", HttpConsts.ContentTypeTextPlain);
-            map.RegisterMimeType (".TXT", HttpConsts.ContentTypeTextPlain);
+            Assert.Throws<InvalidOperationException>(
+                () => map.RegisterMimeType(".TXT", HttpConsts.ContentTypeTextPlain));
         }
 
         [SetUp]

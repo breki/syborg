@@ -52,6 +52,7 @@ namespace Syborg.Hosting
             this.policies.AddRange(policies);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string ExternalUrl
         {
             get { return externalUrl; }
@@ -148,6 +149,8 @@ namespace Syborg.Hosting
                     Thread.Sleep(configuration.SimulatedResponseLag);
 
                 HttpListenerContext listenerContext = httpListener.EndGetContext(result);
+                Contract.Assume(listenerContext != null);
+
                 IWebContext context = new HttpListenerWebContext(
                     listenerContext, FullWebServerUrl, applicationPath, fileSystem, applicationInfo, timeService, configuration, viewRenderingEngine, fileMimeTypesMap);
                 foreach (IWebPolicy policy in policies)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using Flubu;
 using Flubu.Builds;
@@ -48,10 +49,7 @@ namespace BuildScripts
 
             targetTree.AddTarget("tests")
                 .SetDescription("Runs tests on the project")
-                .Do (r =>
-                    {
-                        TargetRunTestsWithCoverage(r, "Syborg.Tests");
-                    }).DependsOn ("load.solution");
+                .Do (TargetRunTests).DependsOn ("load.solution");
 
             targetTree.AddTarget ("nuget")
                 .SetDescription ("Produces NuGet packages for the library and publishes them to the NuGet server")
@@ -64,7 +62,7 @@ namespace BuildScripts
         private static void ConfigureBuildProperties (TaskSession session)
         {
             session.Properties.Set (BuildProps.CompanyName, "Igor Brejc");
-            session.Properties.Set (BuildProps.CompanyCopyright, "Copyright (C) 2014-2015 Igor Brejc");
+            session.Properties.Set (BuildProps.CompanyCopyright, "Copyright (C) 2014-2016 Igor Brejc");
             session.Properties.Set (BuildProps.ProductId, "Syborg");
             session.Properties.Set (BuildProps.ProductName, "Syborg");
             session.Properties.Set (BuildProps.SolutionFileName, "Syborg.sln");
@@ -86,12 +84,14 @@ namespace BuildScripts
             task.Execute (context);
         }
 
-        private static void TargetRunTestsWithCoverage (ITaskContext context, string projectName)
+        private static void TargetRunTests (ITaskContext context)
         {
             NUnitWithDotCoverTask task = new NUnitWithDotCoverTask (
-                Path.Combine (projectName, "bin", context.Properties[BuildProps.BuildConfiguration], projectName) + ".dll",
-                @"packages\NUnit.Runners.2.6.3\tools\nunit-console.exe");
-            task.DotCoverFilters = "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*";
+                @"packages\NUnit.Console.3.0.1\tools\nunit3-console.exe",
+                string.Format (CultureInfo.InvariantCulture, @"Syborg.Tests\bin\{0}\Syborg.Tests.dll", context.Properties[BuildProps.BuildConfiguration]));
+            task.FailBuildOnViolations = false;
+            task.NUnitCmdLineOptions = "--labels=All --verbose";
+            task.DotCoverFilters = "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*;-:module=LibroLib*";
             task.FailBuildOnViolations = false;
             task.Execute (context);
         }
