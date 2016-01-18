@@ -13,6 +13,13 @@ namespace Syborg.Tests
         } 
 
         [Test]
+        public void ApplicationWithinVirtualDirWithMoreDepth()
+        {
+            UrlHelper url = new UrlHelper ("http://localhost/wagahaga/help");
+            Assert.AreEqual ("/wagahaga/help/", url.Base ());
+        } 
+
+        [Test]
         public void ApplicationOnRoot()
         {
             UrlHelper url = new UrlHelper ("http://wagahaga.com");
