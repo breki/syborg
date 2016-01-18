@@ -32,6 +32,10 @@ namespace Syborg.Commands
         {
             // do not allow rooted (absolute) paths
             string path = routeMatch["path"];
+
+            if (path == null)
+                return new HttpStatusResult (HttpStatusCode.BadRequest);
+
             if (Path.IsPathRooted(path))
             {
                 HttpStatusResult httpStatusResult = new HttpStatusResult (HttpStatusCode.BadRequest);

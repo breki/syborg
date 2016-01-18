@@ -9,6 +9,7 @@ namespace Syborg
     }
 
     [ContractClassFor(typeof(IWebPolicy))]
+    // ReSharper disable once InconsistentNaming
     internal abstract class IWebPolicyContract : IWebPolicy
     {
         public void Apply(IWebContext context)

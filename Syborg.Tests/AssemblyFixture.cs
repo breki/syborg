@@ -5,13 +5,13 @@ namespace Syborg.Tests
     [SetUpFixture]
     public class AssemblyFixture
     {
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup ()
         {
             log4net.Config.XmlConfigurator.Configure ();
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void Teardown ()
         {
             log4net.LogManager.Shutdown ();

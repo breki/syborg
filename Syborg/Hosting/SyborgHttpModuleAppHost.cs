@@ -70,6 +70,8 @@ namespace Syborg.Hosting
         public IWebContext CreateWebContext(HttpContext httpContext)
         {
             Contract.Requires(httpContext != null);
+            Contract.Ensures(Contract.Result<IWebContext>() != null);
+
             HttpModuleWebContext context = new HttpModuleWebContext(httpContext, fileSystem, applicationInfo, timeService, webServerConfiguration, viewRenderingEngine, fileMimeTypesMap);
             foreach (IWebPolicy policy in policies)
                 context.AddPolicy (policy);

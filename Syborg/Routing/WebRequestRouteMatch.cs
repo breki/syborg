@@ -12,11 +12,15 @@ namespace Syborg.Routing
         public static WebRequestRouteMatch FromRegexMatch(Regex pattern, Match match)
         {
             Contract.Requires(pattern != null);
+            Contract.Requires(match != null);
 
             WebRequestRouteMatch routeMatch = new WebRequestRouteMatch();
 
             foreach (string groupName in pattern.GetGroupNames())
             {
+                if (groupName == null)
+                    continue;
+
                 Group group = match.Groups[groupName];
 
                 if (@group.Captures.Count > 1)

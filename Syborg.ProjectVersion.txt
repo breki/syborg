@@ -1,5 +1,6 @@
 1.1.0.0
 - FileResult now supports gzip compression if requested by client
+- migrated tests to NUnit 3.0
 
 1.0.1.0
 - SyborgHttpListenerAppHost now exposes ExternalUrl, ServerPortNumber and ApplicationPath read-only properties

@@ -72,6 +72,8 @@ namespace Syborg.Razor
         {
             get
             {
+                Contract.Ensures (Contract.Result<IDictionary<string, Action>>() != null);
+
                 if (innerTemplate != null)
                     return innerTemplate.sections;
 
@@ -83,6 +85,8 @@ namespace Syborg.Razor
         {
             get
             {
+                Contract.Ensures(Contract.Result<StringBuilder>() != null);
+
                 if (outerTemplate != null)
                     return outerTemplate.outputBuilder;
 
@@ -120,7 +124,7 @@ namespace Syborg.Razor
             OutputBuilder.Append (value);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+        [SuppressMessage ("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public void WriteLiteralTo(TextWriter writer, Object value)
         {
             Contract.Requires(writer != null);
@@ -132,7 +136,7 @@ namespace Syborg.Razor
         /// Writes the specified object as an HTML-encoded string to the specified text writer.
         /// </summary>
         /// <param name="writer">The text writer.</param><param name="content">The object to encode and write.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+        [SuppressMessage ("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public void WriteTo (TextWriter writer, object content)
         {
             Contract.Requires (writer != null);
@@ -181,15 +185,15 @@ namespace Syborg.Razor
         //    Write (output);
         //}
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
+        [SuppressMessage ("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
         public virtual void WriteAttribute (
             string attr,
             params object[] args)
         {
             Contract.Requires(args != null);
-
-            if (args.Length < 3)
-                throw new InvalidOperationException ("parms.Length < 3");
+            Contract.Requires(args.Length >= 3);
+            Contract.Requires(args[0] != null);
+            Contract.Requires(args[1] != null);
 
             string prefix = ((Tuple<string, int>)args[0]).Item1;
             string suffix = ((Tuple<string, int>)args[1]).Item1;
@@ -222,6 +226,8 @@ namespace Syborg.Razor
 
                     //log.DebugFormat ("Write ('{0}'), token.Item1.Item1='{1}'", value, token.Item1.Item1);
                 }
+                else if (arg == null)
+                    throw new InvalidOperationException ("Token is null");
                 else
                     throw new InvalidOperationException ("Unsupported token type: {0}".Fmt (arg.GetType ()));
 
@@ -231,7 +237,7 @@ namespace Syborg.Razor
             Write (suffix);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+        [SuppressMessage ("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public void WriteSection (string name, Action contents)
         {
             throw new NotImplementedException("WriteSection");

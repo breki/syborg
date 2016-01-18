@@ -100,10 +100,29 @@ namespace Syborg.Tests.WebCommandResultTests
 
             ICachingPolicy cachingPolicy = new NoCachingPolicy ();
             FileResult result = new FileResult (FileName, cachingPolicy);
+            result.AllowGzipCompression = true;
             result.Apply (context);
 
             Assert.AreEqual ((int)HttpStatusCode.OK, context.StatusCode);
             Assert.AreEqual ("gzip", context.ResponseHeaders[HttpConsts.HeaderTransferEncoding]);
+            Assert.AreEqual (HttpConsts.ContentTypeImagePng, context.ResponseContentType);
+        }
+
+        [Test]
+        public void DoNotCompressIfNotAllowed()
+        {
+            context.RequestHeaders.Add(HttpConsts.HeaderAcceptEncoding, "gzip");
+
+            fileSystem.Stub (x => x.DoesFileExist (FileName)).Return (true);
+            byte[] fileBytes = new byte[100];
+            fileSystem.Stub (x => x.ReadFileAsBytes (FileName)).Return (fileBytes);
+
+            ICachingPolicy cachingPolicy = new NoCachingPolicy ();
+            FileResult result = new FileResult (FileName, cachingPolicy);
+            result.Apply (context);
+
+            Assert.AreEqual ((int)HttpStatusCode.OK, context.StatusCode);
+            Assert.AreEqual (null, context.ResponseHeaders[HttpConsts.HeaderTransferEncoding]);
             Assert.AreEqual (HttpConsts.ContentTypeImagePng, context.ResponseContentType);
         }
 

@@ -1,3 +1,6 @@
+- implement in-memory caching of files for ContentCommand
+	- how to integrate this with FileResult?
+
 - what to do with common code?	
 	- add missing classes
 	 - we have to extract it into another common lib as NuGet package
