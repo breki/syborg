@@ -242,8 +242,8 @@
     <AssemblyOriginatorKeyFile>Syborg.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibroLib.Common, Version=1.1.0.0, Culture=neutral, PublicKeyToken=565e9639e336040e, processorArchitecture=MSIL">
-      <HintPath>..\packages\LibroLib.Common.1.1.1.0\lib\net40\LibroLib.Common.dll</HintPath>
+    <Reference Include="LibroLib.Common, Version=1.2.0.0, Culture=neutral, PublicKeyToken=565e9639e336040e, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibroLib.Common.1.2.0.0\lib\net40\LibroLib.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
