@@ -114,6 +114,10 @@ namespace Syborg.Hosting
             GC.SuppressFinalize (this);
         }
 
+        protected virtual void OnRequestReceived(IWebContext context)
+        {
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "httpListener")]
         protected virtual void Dispose (bool disposing)
         {
@@ -153,6 +157,9 @@ namespace Syborg.Hosting
 
                 IWebContext context = new HttpListenerWebContext(
                     listenerContext, FullWebServerUrl, applicationPath, fileSystem, applicationInfo, timeService, configuration, viewRenderingEngine, fileMimeTypesMap);
+
+                OnRequestReceived(context);
+
                 foreach (IWebPolicy policy in policies)
                     context.AddPolicy(policy);
 

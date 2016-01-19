@@ -178,7 +178,7 @@ namespace Syborg.CommandResults
                 fileCache.CacheFile(
                     fileNameUsed, 
                     fileData, 
-                    context.ResponseHeaders[HttpConsts.HeaderTransferEncoding]);
+                    context.ResponseHeaders[HttpConsts.HeaderContentEncoding]);
             }
         }
 
@@ -195,7 +195,7 @@ namespace Syborg.CommandResults
             context.ResponseContentLength = fileData.Length;
 
             if (fileInfo.TransferEncoding != null)
-                context.AddHeader(HttpConsts.HeaderTransferEncoding, fileInfo.TransferEncoding);
+                context.AddHeader (HttpConsts.HeaderContentEncoding, fileInfo.TransferEncoding);
 
             using (BinaryWriter responseWriter = new BinaryWriter (context.ResponseStream))
             {
@@ -211,7 +211,7 @@ namespace Syborg.CommandResults
             Contract.Ensures(Contract.Result<byte[]>() != null);
 
             fileData = CompressByteArray (fileData);
-            context.AddHeader(HttpConsts.HeaderTransferEncoding, "gzip");
+            context.AddHeader (HttpConsts.HeaderContentEncoding, "gzip");
             return fileData;
         }
 

@@ -6,6 +6,7 @@ namespace Syborg
         public const string HeaderAge = "Age";
         public const string HeaderCacheControl = "Cache-Control";
         public const string HeaderContentDisposition = "Content-Disposition";
+        public const string HeaderContentEncoding = "Content-Encoding";
         public const string HeaderContentLength = "Content-Length";
         public const string HeaderContentType = "Content-Type";
         public const string HeaderDate = "Date";
