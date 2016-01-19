@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -23,8 +24,8 @@ namespace Syborg.Tests.HostingTests
         [Test]
         public void GZipCompressDecompress()
         {
-            string text = "this is a text";
-            byte[] textData = Encoding.UTF8.GetBytes(text);
+            const string Text = "this is a text";
+            byte[] textData = Encoding.UTF8.GetBytes(Text);
 
             byte[] compressedData;
             using (MemoryStream compressedStream = new MemoryStream ())
@@ -69,9 +70,10 @@ namespace Syborg.Tests.HostingTests
             using (IRestClient client = restClientFactory.CreateRestClient())
             {
                 IRestClientResponse response = client.Get(testServiceUrl + "content/sample.txt")
-                    .AddHeader(HttpRequestHeader.AcceptEncoding, "gzip")
+                    .AddHeader(HttpRequestHeader.AcceptEncoding, "gzip, deflate, sdch")
                     .Do().Response;
                 Assert.AreEqual((int)HttpStatusCode.OK, client.StatusCode);
+                Assert.AreEqual("gzip", response.Headers[HttpConsts.HeaderContentEncoding]);
                 byte[] compressedData = response.AsBytes();
 
                 using (MemoryStream stream = new MemoryStream(compressedData))
@@ -82,6 +84,24 @@ namespace Syborg.Tests.HostingTests
                     byte[] uncompressedData = resultStream.ToArray();
                     Assert.AreEqual ("This is sample content.", new UTF8Encoding(false).GetString(uncompressedData));
                 }
+            }
+        }
+
+        [Test]
+        public void TestCompressionUsingNativeWebClientDecompression()
+        {
+            HttpWebRequest r = (HttpWebRequest)WebRequest.Create (testServiceUrl + "content/sample.txt");
+            r.AutomaticDecompression = DecompressionMethods.GZip;
+            using (var response = r.GetResponse())
+            using (MemoryStream resultStream = new MemoryStream ())
+            {
+                Stream responseStream = response.GetResponseStream ();
+                if (responseStream == null)
+                    throw new InvalidOperationException();
+
+                responseStream.CopyTo (resultStream);
+                byte[] uncompressedData = resultStream.ToArray ();
+                Assert.AreEqual ("This is sample content.", new UTF8Encoding (false).GetString (uncompressedData));
             }
         }
 
@@ -108,6 +128,7 @@ namespace Syborg.Tests.HostingTests
             ContentCommand contentCommand = new ContentCommand(contentRootDirectory, fileSystem, fileCache);
             routes.Add (new RegexWebRequestRoute ("^content/(?<path>.+)$", HttpMethod.GET, contentCommand));
 
+            // ReSharper disable once CollectionNeverUpdated.Local
             List<IWebPolicy> policies = new List<IWebPolicy>();
 
             const string ExternalUrl = "http://localhost";

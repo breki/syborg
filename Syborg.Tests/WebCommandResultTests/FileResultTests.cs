@@ -104,7 +104,7 @@ namespace Syborg.Tests.WebCommandResultTests
             result.Apply (context);
 
             Assert.AreEqual ((int)HttpStatusCode.OK, context.StatusCode);
-            Assert.AreEqual ("gzip", context.ResponseHeaders[HttpConsts.HeaderTransferEncoding]);
+            Assert.AreEqual ("gzip", context.ResponseHeaders[HttpConsts.HeaderContentEncoding]);
             Assert.AreEqual (HttpConsts.ContentTypeImagePng, context.ResponseContentType);
         }
 
