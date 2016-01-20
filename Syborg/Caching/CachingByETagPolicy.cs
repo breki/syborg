@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Net;
+using System.Reflection;
 using LibroLib;
+using log4net;
 
 namespace Syborg.Caching
 {
@@ -45,16 +47,25 @@ namespace Syborg.Caching
 
             do
             {
+                if (log.IsDebugEnabled)
+                    log.DebugFormat("ETag='{0}'", etag);
+
                 if (etag == null)
                     break;
 
                 string ifNoneMatch = context.RequestHeaders[HttpConsts.HeaderIfNoneMatch];
 
+                if (log.IsDebugEnabled)
+                    log.DebugFormat ("HttpConsts.HeaderIfNoneMatch='{0}'", ifNoneMatch);
+
                 if (ifNoneMatch == null)
                     break;
 
                 if (string.Compare(etag, ifNoneMatch, StringComparison.Ordinal) == 0)
+                {
                     resourceModified = false;
+                    log.DebugFormat ("resourceModified = false");
+                }
             }
             while (false);
 
@@ -85,5 +96,6 @@ namespace Syborg.Caching
 
         private readonly TimeSpan maxAge;
         private readonly Func<Tuple<string, DateTime?>> etagFunc;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
+using System.Reflection;
 using LibroLib.FileSystem;
 using LibroLib.Misc;
+using log4net;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Syborg.Caching;
@@ -122,6 +123,8 @@ namespace Syborg.Tests
         [Test]
         public void TestCachingByETag()
         {
+            log.Debug ("TestCachingByETag");
+
             TimeSpan maxAge = TimeSpan.FromDays (30);
             cmd.CacheByETag(
                 @"somedir\*", 
@@ -131,12 +134,6 @@ namespace Syborg.Tests
             routeMatch.AddParameter ("path", @"somedir\somepath.png");
             const string ExpectedFileName = @"d:\somedir\contents\somedir\somepath.png";
             fileSystem.Stub (x => x.DoesFileExist (ExpectedFileName)).Return (true);
-
-            IFileInformation fileInfo = MockRepository.GenerateStub<IFileInformation>();
-            fileInfo.LastWriteTime = now.AddDays(-3);
-            fileSystem.Stub (x => x.GetFileInformation (ExpectedFileName)).Return (fileInfo);
-
-            fileSystem.Stub (x => x.ReadFileAsBytes (ExpectedFileName)).Return (new byte[100]);
 
             IWebCommandResult result = cmd.Execute (context, routeMatch);
             FileResult fileResult = (FileResult)result;
@@ -174,5 +171,6 @@ namespace Syborg.Tests
         private ITimeService timeService;
         private DateTime now;
         private const string ContentRootDirectory = @"d:\somedir\contents";
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
     }
 }
