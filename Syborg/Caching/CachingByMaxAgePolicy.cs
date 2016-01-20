@@ -21,7 +21,7 @@ namespace Syborg.Caching
         public void ProcessRequest (object resourceData, IWebContext context, Action<object, IWebContext> returnResourceAction)
         {
             DateTime? lastModified = lastModifiedFunc (resourceData);
-            bool resourceNotModified = false;
+            bool resourceModified = true;
 
             do
             {
@@ -43,11 +43,11 @@ namespace Syborg.Caching
                     break;
                 
                 if (lastModified <= ifModifiedSince)
-                    resourceNotModified = true;
+                    resourceModified = false;
             } 
             while (false);
 
-            context.StatusCode = resourceNotModified ? (int)HttpStatusCode.NotModified : (int)HttpStatusCode.OK;
+            context.StatusCode = resourceModified ? (int)HttpStatusCode.OK : (int)HttpStatusCode.NotModified;
 
             context.ResponseHeaders.Remove (HttpConsts.HeaderCacheControl);
             context.AddHeader(HttpConsts.HeaderCacheControl, HttpConsts.CacheControlPrivate);
@@ -63,7 +63,7 @@ namespace Syborg.Caching
             if (lastModified.HasValue)
                 context.AddHeader (HttpConsts.HeaderLastModified, lastModified.Value.ToRfc2822DateTime ());
 
-            if (!resourceNotModified)
+            if (resourceModified)
                 returnResourceAction(resourceData, context);
 
             context.CloseResponse();

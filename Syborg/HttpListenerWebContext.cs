@@ -26,6 +26,8 @@ namespace Syborg
             IFileMimeTypesMap fileMimeTypesMap)
         {
             Contract.Requires(context != null);
+            Contract.Requires(context.Request != null);
+
             this.applicationPath = applicationPath;
             this.context = context;
             this.applicationUrl = applicationUrl;
