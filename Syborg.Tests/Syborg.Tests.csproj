@@ -96,7 +96,10 @@
     <Compile Include="FileMimeTypesMapTests.cs" />
     <Compile Include="HostingTests\BasicHostingTests.cs" />
     <Compile Include="HostingTests\TestHost.cs" />
-    <Compile Include="HttpCachingTests.cs" />
+    <Compile Include="HttpCachingTests\CachingByETagPolicyTests.cs" />
+    <Compile Include="HttpCachingTests\CachingByMaxAgePolicyTests.cs" />
+    <Compile Include="HttpCachingTests\HttpCachingTestsBase.cs" />
+    <Compile Include="HttpCachingTests\NoCachingPolicyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorViewExecutionTests.cs" />
     <Compile Include="RazorViewRenderingEngineTests.cs" />
