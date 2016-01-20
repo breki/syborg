@@ -118,6 +118,7 @@ namespace Syborg.Commands
         public ContentCommand CacheByETag (string pattern, TimeSpan maxAge, Func<Tuple<string, DateTime?>> etagFunc)
         {
             Contract.Requires(pattern != null);
+            Contract.Requires(etagFunc != null);
             Contract.Ensures(ReferenceEquals(Contract.Result<ContentCommand>(), this));
 
             cachingRules.Add (CachingRule.ByETag (pattern, maxAge, etagFunc));

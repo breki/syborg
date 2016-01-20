@@ -41,24 +41,24 @@ namespace Syborg.Caching
             string etag = tuple.Item1;
             DateTime? lastModified = tuple.Item2;
 
-            bool resourceNotModified = false;
+            bool resourceModified = true;
 
             do
             {
+                if (etag == null)
+                    break;
+
                 string ifNoneMatch = context.RequestHeaders[HttpConsts.HeaderIfNoneMatch];
 
                 if (ifNoneMatch == null)
                     break;
 
-                if (etag == null)
-                    break;
-
                 if (string.Compare(etag, ifNoneMatch, StringComparison.Ordinal) == 0)
-                    resourceNotModified = true;
+                    resourceModified = false;
             }
             while (false);
 
-            context.StatusCode = resourceNotModified ? (int)HttpStatusCode.NotModified : (int)HttpStatusCode.OK;
+            context.StatusCode = resourceModified ? (int)HttpStatusCode.OK : (int)HttpStatusCode.NotModified;
 
             context.ResponseHeaders.Remove (HttpConsts.HeaderCacheControl);
             context.AddHeader (HttpConsts.HeaderCacheControl, HttpConsts.CacheControlPrivate);
@@ -77,7 +77,7 @@ namespace Syborg.Caching
             if (lastModified.HasValue)
                 context.AddHeader (HttpConsts.HeaderLastModified, lastModified.Value.ToRfc2822DateTime ());
 
-            if (!resourceNotModified)
+            if (resourceModified)
                 returnResourceAction (resourceData, context);
 
             context.CloseResponse ();

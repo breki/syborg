@@ -143,7 +143,7 @@ namespace Syborg.Tests
             CachingByETagPolicy cachingPolicy = (CachingByETagPolicy)fileResult.CachingPolicy;
             Assert.AreEqual (maxAge, cachingPolicy.MaxAge);
 
-            context.RequestHeaders.Add (HttpConsts.HeaderIfModifiedSince, fileInfo.LastWriteTime.ToRfc2822DateTime ());
+            context.RequestHeaders.Add (HttpConsts.HeaderIfNoneMatch, "xyz");
             result.Apply (context);
 
             Assert.AreEqual ((int)HttpStatusCode.NotModified, context.StatusCode);
