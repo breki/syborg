@@ -10,7 +10,7 @@ namespace Syborg.Tests.HttpCachingTests
     public abstract class HttpCachingTestsBase
     {
         [SetUp]
-        public void Setup()
+        public virtual void Setup()
         {
             timeService = MockRepository.GenerateStub<ITimeService>();
             currentTime = new DateTime(2014, 06, 15, 21, 55, 0);
