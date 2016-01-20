@@ -106,10 +106,21 @@ namespace Syborg.Commands
             return notFoundResult;
         }
 
-        public ContentCommand CacheWithMaxAge (string pattern, TimeSpan maxAge)
+        public ContentCommand CacheByMaxAge (string pattern, TimeSpan maxAge)
         {
             Contract.Requires(pattern != null);
-            cachingRules.Add(new CachingRule(pattern, maxAge, FileLastModifiedFunc));
+            Contract.Ensures(ReferenceEquals(Contract.Result<ContentCommand>(), this));
+
+            cachingRules.Add(CachingRule.ByMaxAge(pattern, maxAge, FileLastModifiedFunc));
+            return this;
+        }
+
+        public ContentCommand CacheByETag (string pattern, TimeSpan maxAge, Func<Tuple<string, DateTime?>> etagFunc)
+        {
+            Contract.Requires(pattern != null);
+            Contract.Ensures(ReferenceEquals(Contract.Result<ContentCommand>(), this));
+
+            cachingRules.Add (CachingRule.ByETag (pattern, maxAge, etagFunc));
             return this;
         }
 
@@ -161,12 +172,24 @@ namespace Syborg.Commands
 
         private class CachingRule
         {
-            public CachingRule (string pattern, TimeSpan maxAge, Func<object, DateTime?> fileLastModifiedFunc)
+            public static CachingRule ByMaxAge (string pattern, TimeSpan maxAge, Func<object, DateTime?> fileLastModifiedFunc)
             {
                 Contract.Requires(pattern != null);
-                patternRegex = new Regex(pattern.WildcardsToRegex(), RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                Contract.Ensures(Contract.Result<CachingRule>() != null);
 
-                cachingPolicy = new CachingByMaxAgePolicy (maxAge, fileLastModifiedFunc);
+                return new CachingRule(
+                    CreatePatternRegex(pattern), 
+                    new CachingByMaxAgePolicy (maxAge, fileLastModifiedFunc));
+            }
+
+            public static CachingRule ByETag (string pattern, TimeSpan maxAge, Func<Tuple<string, DateTime?>> etagFunc)
+            {
+                Contract.Requires(pattern != null);
+                Contract.Ensures(Contract.Result<CachingRule>() != null);
+
+                return new CachingRule (
+                    CreatePatternRegex (pattern),
+                    new CachingByETagPolicy(maxAge, etagFunc));
             }
 
             public ICachingPolicy CachingPolicy
@@ -182,6 +205,20 @@ namespace Syborg.Commands
                 //    log.DebugFormat("{0} : {1}", patternRegex, isMatch);
 
                 return isMatch;
+            }
+
+            private CachingRule(Regex patternRegex, ICachingPolicy cachingPolicy)
+            {
+                Contract.Requires (patternRegex != null);
+                Contract.Requires (cachingPolicy != null);
+
+                this.patternRegex = patternRegex;
+                this.cachingPolicy = cachingPolicy;
+            }
+
+            private static Regex CreatePatternRegex(string pattern)
+            {
+                return new Regex(pattern.WildcardsToRegex(), RegexOptions.IgnoreCase | RegexOptions.Compiled);
             }
 
             private readonly Regex patternRegex;

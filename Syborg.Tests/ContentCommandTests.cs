@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using LibroLib.FileSystem;
 using LibroLib.Misc;
@@ -70,7 +71,7 @@ namespace Syborg.Tests
         public void SettingCachingRuleShouldWork ()
         {
             TimeSpan maxAge = TimeSpan.FromDays(7);
-            cmd.CacheWithMaxAge (@"somedir\*", maxAge);
+            cmd.CacheByMaxAge (@"somedir\*", maxAge);
 
             routeMatch.AddParameter ("path", @"somedir\somepath.png");
             const string ExpectedFileName = @"d:\somedir\contents\somedir\somepath.png";
@@ -97,7 +98,7 @@ namespace Syborg.Tests
         public void SettingCachingRuleDoesNotMatch ()
         {
             TimeSpan maxAge = TimeSpan.FromDays(7);
-            cmd.CacheWithMaxAge (@"somedir2\*", maxAge);
+            cmd.CacheByMaxAge (@"somedir2\*", maxAge);
 
             routeMatch.AddParameter ("path", @"somedir\somepath.png");
             const string ExpectedFileName = @"d:\somedir\contents\somedir\somepath.png";
@@ -118,22 +119,34 @@ namespace Syborg.Tests
             Assert.IsTrue(cmd.DoesFileExist(SampleFilePath));
         }
 
-        [Test, Ignore("todo next")]
-        public void FileShouldBeCompressedIfRequested()
+        [Test]
+        public void TestCachingByETag()
         {
-            context.RequestHeaders.Add(HttpConsts.HeaderAcceptEncoding, "gzip");
+            TimeSpan maxAge = TimeSpan.FromDays (30);
+            cmd.CacheByETag(
+                @"somedir\*", 
+                maxAge, 
+                () => new Tuple<string, DateTime?>("xyz", new DateTime(2016, 01, 19, 10, 22, 0)));
 
-            routeMatch.AddParameter ("path", @"somedir/somepath.png");
+            routeMatch.AddParameter ("path", @"somedir\somepath.png");
             const string ExpectedFileName = @"d:\somedir\contents\somedir\somepath.png";
             fileSystem.Stub (x => x.DoesFileExist (ExpectedFileName)).Return (true);
 
+            IFileInformation fileInfo = MockRepository.GenerateStub<IFileInformation>();
+            fileInfo.LastWriteTime = now.AddDays(-3);
+            fileSystem.Stub (x => x.GetFileInformation (ExpectedFileName)).Return (fileInfo);
+
+            fileSystem.Stub (x => x.ReadFileAsBytes (ExpectedFileName)).Return (new byte[100]);
+
             IWebCommandResult result = cmd.Execute (context, routeMatch);
             FileResult fileResult = (FileResult)result;
-            //Assert.IsTrue(
-            //    fileResult.Headers.AllKeys.Any(x => x == HttpConsts.HeaderTransferEncoding && fileResult.Headers[]));
-            Assert.AreEqual (ExpectedFileName, fileResult.FileName);
+            CachingByETagPolicy cachingPolicy = (CachingByETagPolicy)fileResult.CachingPolicy;
+            Assert.AreEqual (maxAge, cachingPolicy.MaxAge);
 
-            throw new NotImplementedException("todo next:");
+            context.RequestHeaders.Add (HttpConsts.HeaderIfModifiedSince, fileInfo.LastWriteTime.ToRfc2822DateTime ());
+            result.Apply (context);
+
+            Assert.AreEqual ((int)HttpStatusCode.NotModified, context.StatusCode);
         }
 
         [SetUp]

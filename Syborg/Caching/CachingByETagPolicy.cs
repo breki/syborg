@@ -24,6 +24,16 @@ namespace Syborg.Caching
             this.etagFunc = etagFunc;
         }
 
+        public TimeSpan MaxAge
+        {
+            get { return maxAge; }
+        }
+
+        public Func<Tuple<string, DateTime?>> EtagFunc
+        {
+            get { return etagFunc; }
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "2"), System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
         public void ProcessRequest (object resourceData, IWebContext context, Action<object, IWebContext> returnResourceAction)
         {
