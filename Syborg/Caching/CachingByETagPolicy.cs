@@ -71,7 +71,7 @@ namespace Syborg.Caching
 
             context.StatusCode = resourceModified ? (int)HttpStatusCode.OK : (int)HttpStatusCode.NotModified;
 
-            context.ResponseHeaders.Remove (HttpConsts.HeaderCacheControl);
+            context.RemoveHeader(HttpConsts.HeaderCacheControl);
             context.AddHeader (HttpConsts.HeaderCacheControl, HttpConsts.CacheControlPrivate);
             context.AddHeader (
                 HttpConsts.HeaderCacheControl,

@@ -1,4 +1,6 @@
 using System;
+using System.CodeDom;
+using System.Globalization;
 using System.Net;
 using System.Reflection;
 using System.Threading;
@@ -47,6 +49,7 @@ namespace Syborg.Hosting
             }
         }
 
+        // ReSharper disable once InconsistentNaming
         private static void Application_BeginRequest(object sender, EventArgs e)
         {
             HttpApplication application = (HttpApplication)sender;
@@ -95,7 +98,11 @@ namespace Syborg.Hosting
 
                 if (!context.IsResponseClosed)
                 {
-                    log.ErrorFormat ("BUG: the response was not closed properly (thread {0}, URL={1})!", Thread.CurrentThread.ManagedThreadId, context.RawUrl);
+                    log.ErrorFormat (
+                        CultureInfo.InvariantCulture,
+                        "BUG: the response was not closed properly (thread {0}, URL={1})!", 
+                        Thread.CurrentThread.ManagedThreadId, 
+                        context.RawUrl);
                     context.StatusCode = (int)HttpStatusCode.InternalServerError;
                     context.CloseResponse ();
                 }
@@ -123,6 +130,7 @@ namespace Syborg.Hosting
             }
         }
 
+        // ReSharper disable once InconsistentNaming
         private static void Application_EndRequest(object sender, EventArgs e)
         {
         }

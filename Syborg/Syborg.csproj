@@ -342,7 +342,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Syborg.nuspec" />
+    <None Include="Syborg.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Syborg.snk" />
   </ItemGroup>
   <ItemGroup>

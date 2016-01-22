@@ -7,7 +7,7 @@ namespace Syborg.Caching
         public void ProcessRequest (object resourceData, IWebContext context, Action<object, IWebContext> returnResourceAction)
         {
             context.AddHeader(HttpConsts.HeaderDate, context.TimeService.CurrentTime.ToRfc2822DateTime());
-            context.ResponseHeaders.Remove (HttpConsts.HeaderCacheControl);
+            context.RemoveHeader(HttpConsts.HeaderCacheControl);
             context.AddHeader (HttpConsts.HeaderCacheControl, HttpConsts.CacheControlNoCache);
             context.AddHeader(HttpConsts.HeaderCacheControl, HttpConsts.CacheControlNoStore);
             context.AddHeader(HttpConsts.HeaderCacheControl, HttpConsts.CacheControlMaxAge + "=0");

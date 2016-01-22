@@ -203,6 +203,11 @@ namespace Syborg
             throw new NotImplementedException();
         }
 
+        public void RemoveHeader(string name)
+        {
+            context.Response.Headers.Remove(name);
+        }
+
         public void SetCookie(ICookie cookie)
         {
             throw new NotImplementedException();
