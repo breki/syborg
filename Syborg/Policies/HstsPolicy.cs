@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using log4net;
-
-namespace Syborg.Policies
+﻿namespace Syborg.Policies
 {
     public class HstsPolicy : IWebPolicy
     {
@@ -11,10 +8,8 @@ namespace Syborg.Policies
                 return;
 
             // note: this means 1 year
-            context.ResponseHeaders.Remove(HttpConsts.HeaderStrictTransportSecurity);
+            context.RemoveHeader(HttpConsts.HeaderStrictTransportSecurity);
             context.AddHeader(HttpConsts.HeaderStrictTransportSecurity, "max-age=31536000");
         }
-
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
     }
 }

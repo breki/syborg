@@ -162,6 +162,11 @@ namespace Syborg
             return new FakeCookie(name);
         }
 
+        public void RemoveHeader(string name)
+        {
+            responseHeaders.Remove(name);
+        }
+
         public void SetCookie(ICookie cookie)
         {
             throw new NotImplementedException("todo");

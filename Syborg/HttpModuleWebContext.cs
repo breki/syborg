@@ -19,7 +19,6 @@ namespace Syborg
         public HttpModuleWebContext(
             HttpContext context,
             IFileSystem fileSystem,
-            IApplicationInfo applicationInfo,
             ITimeService timeService,
             IWebServerConfiguration configuration,
             IRazorViewRenderingEngine viewRenderingEngine,
@@ -29,7 +28,6 @@ namespace Syborg
 
             this.context = context;
             this.fileSystem = fileSystem;
-            this.applicationInfo = applicationInfo;
             this.timeService = timeService;
             this.configuration = configuration;
             this.viewRenderingEngine = viewRenderingEngine;
@@ -135,9 +133,20 @@ namespace Syborg
         public string ResponseDescription { get; set; }
 
         public NameValueCollection ResponseHeaders { get { return context.Response.Headers; } }
-        
-        // currently not implemented, since HttpResponse doesn't have the SendChunked property
-        public bool ResponseSendChunked { get; set; }
+
+        // see http://serialseb.com/blog/2008/10/05/httpresponseflush-forces-chunked/
+        public bool ResponseSendChunked
+        {
+            get
+            {
+                throw new InvalidOperationException("currently not implemented, since HttpResponse doesn't have the SendChunked property");
+            }
+
+            set
+            {
+                throw new InvalidOperationException ("currently not implemented, since HttpResponse doesn't have the SendChunked property");                
+            }
+        }
 
         public int StatusCode
         {
@@ -183,6 +192,11 @@ namespace Syborg
         public ICookie CreateCookie(string name)
         {
             return new HttpModuleCookie(new HttpCookie(name));
+        }
+
+        public void RemoveHeader(string name)
+        {
+            context.Response.Headers.Remove(name);
         }
 
         public void SetCookie(ICookie cookie)
@@ -244,7 +258,6 @@ namespace Syborg
 
         private readonly HttpContext context;
         private readonly IFileSystem fileSystem;
-        private readonly IApplicationInfo applicationInfo;
         private readonly HttpModuleCookiesCollection requestCookies;
         private readonly HttpModuleCookiesCollection responseCookies;
         private readonly ITimeService timeService;

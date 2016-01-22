@@ -1,4 +1,4 @@
-- improve ContentCommand API for caching to allow ETag caching
+- somehow implement tests for SyborgHttpModule
 
 - make code analysis fail the build
 - fix code analysis and code contracts issues

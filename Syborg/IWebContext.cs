@@ -86,6 +86,7 @@ namespace Syborg
         void ApplyPolicies();
         void CloseResponse();
         ICookie CreateCookie(string name);
+        void RemoveHeader(string name);
         void SetCookie(ICookie cookie);
         string ToLogString();
     }
@@ -353,6 +354,12 @@ namespace Syborg
         {
             Contract.Requires(name != null);
             throw new NotImplementedException();
+        }
+
+        void IWebContext.RemoveHeader(string name)
+        {
+            Contract.Requires (name != null);
+            throw new NotImplementedException ();
         }
 
         public void SetCookie(ICookie cookie)
