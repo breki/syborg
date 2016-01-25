@@ -1,4 +1,5 @@
 - somehow implement tests for SyborgHttpModule
+	- first check what's happening with the response (turn on logging)
 
 - make code analysis fail the build
 - fix code analysis and code contracts issues
