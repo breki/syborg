@@ -99,6 +99,9 @@ namespace Syborg.CommandResults
 
         private void FetchFile(IWebContext context, string fileNameUsed)
         {
+            Contract.Requires(context != null);
+            Contract.Requires(fileNameUsed != null);
+
             string transferEncoding;
             bool shouldFileBeCompressed = DetermineIfFileShouldBeCompressed(context, out transferEncoding);
             if (fileCache != null)
