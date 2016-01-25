@@ -132,6 +132,10 @@ namespace Syborg.Hosting
         // ReSharper disable once InconsistentNaming
         private static void Application_EndRequest(object sender, EventArgs e)
         {
+            //HttpApplication application = (HttpApplication)sender;
+            //HttpContext httpContext = application.Context;
+            //NameValueCollection headers = httpContext.Response.Headers;
+            //log.DebugFormat("resp. headers: {0}", headers.AllKeys.Concat (x => "{0}={1}".Fmt(x, headers[x]), "|"));
         }
 
         private static void LogTraffic(IWebContext context)

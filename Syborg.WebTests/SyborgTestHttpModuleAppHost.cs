@@ -58,7 +58,7 @@ namespace Syborg.WebTests
 
         private static Tuple<string, DateTime?> GenerateContentETag (IWebServerConfiguration config)
         {
-            return new Tuple<string, DateTime?> ("\"1234\"", DateTime.Now);
+            return new Tuple<string, DateTime?>("\"1234\"", DateTime.Now);
         }
     }
 }

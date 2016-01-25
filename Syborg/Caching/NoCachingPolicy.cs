@@ -14,6 +14,9 @@ namespace Syborg.Caching
             context.AddHeader (HttpConsts.HeaderExpires, new DateTime (2000, 01, 01).ToRfc2822DateTime ());
 
             returnResourceAction(resourceData, context);
+
+            if (!context.IsResponseClosed)
+                context.CloseResponse ();
         }
     }
 }

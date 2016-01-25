@@ -1,5 +1,6 @@
 - somehow implement tests for SyborgHttpModule
-	- first check what's happening with the response (turn on logging)
+	- find out why Transfer-Encoding=chunked is used
+		- maybe because of the way how file is compressed
 
 - make code analysis fail the build
 - fix code analysis and code contracts issues

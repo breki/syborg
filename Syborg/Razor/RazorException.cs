@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Diagnostics.Contracts;
 using System.Web.Razor;
 
 namespace Syborg.Razor
@@ -9,11 +10,15 @@ namespace Syborg.Razor
     {
         public RazorException(GeneratorResults generatorResults)
         {
+            Contract.Requires(generatorResults != null);
+
             this.generatorResults = generatorResults;
         }
 
         public RazorException (GeneratorResults generatorResults, CompilerResults compilerResults)
         {
+            Contract.Requires(generatorResults != null);
+
             this.generatorResults = generatorResults;
             this.compilerResults = compilerResults;
         }

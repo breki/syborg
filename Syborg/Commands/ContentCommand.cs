@@ -219,6 +219,8 @@ namespace Syborg.Commands
 
             private static Regex CreatePatternRegex(string pattern)
             {
+                Contract.Requires(pattern != null);
+
                 return new Regex(pattern.WildcardsToRegex(), RegexOptions.IgnoreCase | RegexOptions.Compiled);
             }
 

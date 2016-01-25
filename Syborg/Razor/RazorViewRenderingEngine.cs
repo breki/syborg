@@ -32,6 +32,8 @@ namespace Syborg.Razor
 
         public void RegisterLayout (string layoutName)
         {
+            Contract.Assume(compileSettings != null);
+
             string fileName;
             string viewContents = FetchViewContents (viewsRootDirectory, layoutName, out fileName);
 
@@ -125,6 +127,8 @@ namespace Syborg.Razor
             string fileName;
             
             string containerDir;
+
+            Contract.Assume(viewsRootDirectory != null);
 
             if (nspace == null)
                 containerDir = viewsRootDirectory;
