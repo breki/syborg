@@ -66,7 +66,8 @@ namespace Syborg.Caching
             if (resourceModified)
                 returnResourceAction(resourceData, context);
 
-            context.CloseResponse();
+            if (!context.IsResponseClosed)
+                context.CloseResponse();
         }
 
         private readonly TimeSpan maxAge;

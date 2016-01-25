@@ -49,7 +49,6 @@ namespace Syborg
 
         public string GetKey(int index)
         {
-            Contract.Ensures(Contract.Result<string>() != null);
             throw new System.NotImplementedException();
         }
 

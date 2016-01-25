@@ -7,6 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Web;
+using LibroLib;
 using LibroLib.FileSystem;
 using LibroLib.Misc;
 using log4net;
@@ -115,7 +116,13 @@ namespace Syborg
 
             set
             {
-                context.Response.Headers[HttpConsts.HeaderContentLength] = value.ToString(CultureInfo.InvariantCulture);
+                string lenToString = value.ToString(CultureInfo.InvariantCulture);
+
+                //context.Response.Headers[HttpConsts.HeaderContentLength] = lenToString;
+
+                // NOTE: this is a workaround for setting the Content-Length, since setting it in context.Response
+                // seems to be ignored by ASP.NET
+                HttpContext.Current.Response.Headers[HttpConsts.HeaderContentLength] = lenToString;
             }
         }
         
@@ -185,6 +192,9 @@ namespace Syborg
 
         public void CloseResponse()
         {
+            if (isResponseClosed)
+                throw new InvalidOperationException("The response has already been closed");
+
             context.ApplicationInstance.CompleteRequest();
             isResponseClosed = true;
         }
@@ -218,13 +228,8 @@ namespace Syborg
                 if (request.UrlReferrer != null)
                     s.AppendFormat (CultureInfo.InvariantCulture, "(ref {0}), ", request.UrlReferrer);
 
-                s.Append ("headers: (");
-                foreach (string header in request.Headers.AllKeys)
-                {
-                    string value = request.Headers[header];
-                    s.AppendFormat (CultureInfo.InvariantCulture, "{0}={1},", header, value);
-                }
-
+                s.Append ("req. headers: (");
+                AppendHeadersToLog (s, request.Headers);
                 s.Append ("), ");
 
                 s.AppendFormat (CultureInfo.InvariantCulture, "ua: '{0}' | ", request.UserAgent);
@@ -238,13 +243,8 @@ namespace Syborg
                 s.AppendFormat (CultureInfo.InvariantCulture, "ctype={0}, ", response.ContentType);
                 s.AppendFormat (CultureInfo.InvariantCulture, "len={0}, ", ResponseContentLength);
 
-                s.Append ("headers: (");
-                foreach (string header in response.Headers.AllKeys)
-                {
-                    string value = request.Headers[header];
-                    s.AppendFormat (CultureInfo.InvariantCulture, "{0}={1},", header, value);
-                }
-
+                s.Append ("resp. headers: (");
+                AppendHeadersToLog(s, response.Headers);
                 s.Append (") ");
 
                 return s.ToString();
@@ -254,6 +254,11 @@ namespace Syborg
                 log.Error ("Error logging request", ex);
                 return "[error]";
             }
+        }
+
+        private static void AppendHeadersToLog(StringBuilder s, NameValueCollection headers)
+        {
+            s.Append (headers.AllKeys.Concat (x => "{0}={1}".Fmt(x, headers[x]), "|"));
         }
 
         private readonly HttpContext context;

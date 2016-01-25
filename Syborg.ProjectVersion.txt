@@ -1,6 +1,8 @@
 1.4.0.0
 - IWebContext now has a RemoveHeader() method
 - BREAKING CHANGE: HttpModuleWebContext no longer needs IApplicationInfo
+- BUGFIX: HttpModuleWebContext wrongly logged response headers
+- a possible fix for chunked content when using HTTP compression
 
 1.3.0.0
 - BREAKING CHANGE: ContentCommand caching API has been enhanced

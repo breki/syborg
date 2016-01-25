@@ -1,4 +1,5 @@
 ﻿using System.CodeDom.Compiler;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Reflection;
 using System.Web.Razor;
@@ -34,6 +35,9 @@ namespace Syborg.Razor
             using (StringReader templateReader = new StringReader (razorTemplateText))
             {
                 GeneratorResults generatorResults = razorTemplateEngine.GenerateCode(templateReader);
+
+                Contract.Assume(generatorResults != null);
+
                 if (!generatorResults.Success)
                     throw new RazorException(generatorResults);
 
@@ -65,6 +69,8 @@ namespace Syborg.Razor
                 using (CSharpCodeProvider codeProvider = new CSharpCodeProvider())
                 {
                     CompilerResults compilerResults = codeProvider.CompileAssemblyFromDom(compilerParameters, generatorResults.GeneratedCode);
+
+                    Contract.Assume(compilerResults != null);
 
                     if (compilerResults.Errors.HasErrors)
                         throw new RazorException(generatorResults, compilerResults);
