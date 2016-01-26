@@ -105,7 +105,7 @@ namespace BuildScripts
             }
         }
 
-        private string applicationHostConfigurationPath = @"%windir%\system32\inetsrv\config\applicationhost.config";
+        private string applicationHostConfigurationPath;
         private string applicationPoolName;
         private CreateApplicationPoolMode mode;
         private bool enable32BitAppOnWin64;
