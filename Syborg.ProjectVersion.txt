@@ -1,3 +1,6 @@
+1.4.1.0
+- SyborgTestHttpModuleAppHost now removes Server header from responses (for increased security reasons)
+
 1.4.0.0
 - IWebContext now has a RemoveHeader() method
 - BREAKING CHANGE: HttpModuleWebContext no longer needs IApplicationInfo
