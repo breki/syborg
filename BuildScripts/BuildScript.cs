@@ -38,11 +38,11 @@ namespace BuildScripts
             targetTree.AddTarget ("rebuild")
                 .SetAsDefault ()
                 .SetDescription ("Builds the library and runs tests on it")
-                .DependsOn ("setup.iis", "compile", "dupfinder", "tests");
+                .DependsOn ("compile", "dupfinder", "tests");
 
             targetTree.AddTarget("release")
                 .SetDescription ("Builds the library, runs tests on it and publishes it on the NuGet server")
-                .DependsOn ("rebuild", "nuget");
+                .DependsOn ("setup.iis", "rebuild", "nuget");
 
             targetTree.GetTarget ("fetch.build.version")
                 .Do (TargetFetchBuildVersion);

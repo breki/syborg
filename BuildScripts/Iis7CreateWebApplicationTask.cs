@@ -187,7 +187,7 @@ namespace BuildScripts
         }
 
         private CreateWebApplicationMode mode = CreateWebApplicationMode.FailIfAlreadyExists;
-        private string applicationHostConfigurationPath = @"%windir%\system32\inetsrv\config\applicationhost.config";
+        private string applicationHostConfigurationPath;
         private string applicationName;
         private string parentVirtualDirectoryName = @"IIS://localhost/W3SVC/1/Root";
         private string localPath;
