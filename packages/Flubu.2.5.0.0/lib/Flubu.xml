@@ -10,6 +10,11 @@
             </summary>
             <param name="messageBeepType">Type of the message beep.</param>
         </member>
+        <member name="F:Flubu.Builds.BuildProps.ProjectVersionFileName">
+            <summary>
+            File name of where project version is read from. Property is optional. If not set ProductId is used for part of project file name.
+            </summary>
+        </member>
         <member name="F:Flubu.Builds.BuildProps.SpeechDisabled">
             <summary>
             Boolean property which, if set to <c>true</c>, disables the "build successful/build failed" speech at the end of the build.

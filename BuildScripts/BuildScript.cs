@@ -7,9 +7,13 @@ using Flubu.Builds.Tasks.AnalysisTasks;
 using Flubu.Builds.Tasks.NuGetTasks;
 using Flubu.Builds.Tasks.TestingTasks;
 using Flubu.Targeting;
+using Flubu.Tasks.Iis;
+using Flubu.Tasks.Iis.Iis7;
 
 //css_ref Flubu.dll;
 //css_ref Flubu.Contrib.dll;
+//css_inc Iis7CreateAppPoolTask.cs;
+//css_inc Iis7CreateWebApplicationTask.cs;
 
 namespace BuildScripts
 {
@@ -34,7 +38,7 @@ namespace BuildScripts
             targetTree.AddTarget ("rebuild")
                 .SetAsDefault ()
                 .SetDescription ("Builds the library and runs tests on it")
-                .DependsOn ("compile", "dupfinder", "tests");
+                .DependsOn ("setup.iis", "compile", "dupfinder", "tests");
 
             targetTree.AddTarget("release")
                 .SetDescription ("Builds the library, runs tests on it and publishes it on the NuGet server")
@@ -42,6 +46,10 @@ namespace BuildScripts
 
             targetTree.GetTarget ("fetch.build.version")
                 .Do (TargetFetchBuildVersion);
+
+            targetTree.AddTarget("setup.iis")
+                .SetDescription("Sets up a test web application in IIS")
+                .Do(TargetSetupIis);
 
             targetTree.AddTarget ("dupfinder")
                 .SetDescription ("Runs R# dupfinder to find code duplicates")
@@ -104,6 +112,25 @@ namespace BuildScripts
             publishTask.BasePath = Path.GetFullPath (projectName);
             publishTask.ForApiKeyUseEnvironmentVariable ();
             publishTask.Execute (context);
+        }
+
+        private static void TargetSetupIis(ITaskContext context)
+        {
+            const string AppPoolName = "syborg";
+
+            Iis7CreateAppPoolTask createAppPoolTask = new Iis7CreateAppPoolTask();
+            createAppPoolTask.ApplicationPoolName = AppPoolName;
+            createAppPoolTask.Mode = CreateApplicationPoolMode.UpdateIfExists;
+            createAppPoolTask.AppPoolCustomSetupAction = pool => { pool.ManagedRuntimeVersion = "v4.0"; };
+            createAppPoolTask.Execute(context);
+
+            Iis7CreateWebApplicationTask createWebApplicationTask = new Iis7CreateWebApplicationTask();
+            createWebApplicationTask.AllowAnonymous = true;
+            createWebApplicationTask.ApplicationName = "syborg-tests";
+            createWebApplicationTask.LocalPath = Path.GetFullPath("Syborg.WebTests");
+            createWebApplicationTask.Mode = CreateWebApplicationMode.UpdateIfExists;
+            createWebApplicationTask.ApplicationPoolName = AppPoolName;
+            createWebApplicationTask.Execute(context);
         }
     }
 }
