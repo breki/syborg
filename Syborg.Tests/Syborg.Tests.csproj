@@ -100,6 +100,7 @@
     <Compile Include="HttpCachingTests\CachingByMaxAgePolicyTests.cs" />
     <Compile Include="HttpCachingTests\HttpCachingTestsBase.cs" />
     <Compile Include="HttpCachingTests\NoCachingPolicyTests.cs" />
+    <Compile Include="HttpModuleTests\BasicHttpModuleTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorViewExecutionTests.cs" />
     <Compile Include="RazorViewRenderingEngineTests.cs" />

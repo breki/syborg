@@ -135,7 +135,6 @@ namespace Syborg.Razor
             else
                 containerDir = Path.Combine(viewsRootDirectory, nspace);
 
-            Contract.Assume(containerDir != null);
             string viewContents = FetchViewContents(containerDir, viewName, out fileName);
 
             try

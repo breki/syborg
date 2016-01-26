@@ -17,6 +17,7 @@ namespace Syborg
         public const string HeaderLocation = "Location";
         public const string HeaderLastModified = "Last-Modified";
         public const string HeaderRetryAfter = "Retry-After";
+        public const string HeaderServer = "Server";
         public const string HeaderStrictTransportSecurity = "Strict-Transport-Security";
         public const string HeaderTransferEncoding = "Transfer-Encoding";
 

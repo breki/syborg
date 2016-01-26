@@ -1,4 +1,6 @@
 - somehow implement tests for SyborgHttpModule
+	- remove Server header and write tests for it
+
 	- find out why Transfer-Encoding=chunked is used
 		- maybe because of the way how file is compressed
 
