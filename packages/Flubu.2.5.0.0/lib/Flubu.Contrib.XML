@@ -160,6 +160,116 @@
                 <c>true</c> if this instance is safe to execute in dry run mode; otherwise, <c>false</c>.
             </value>
         </member>
+        <member name="M:Flubu.Tasks.Iis.ICreateWebSiteTask.WebSiteName(System.String)">
+            <summary>
+            set the web site name.
+            </summary>
+            <param name="siteName">The web site name.</param>
+            <returns>The <see cref="T:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.CreateWebSiteBindingProtocol"/> instance.</returns>
+        </member>
+        <member name="M:Flubu.Tasks.Iis.ICreateWebSiteTask.WebSiteMode(Flubu.Tasks.Iis.CreateWebApplicationMode)">
+            <summary>
+            Set WebSite mode.
+            </summary>
+            <param name="webSiteMode">The website Mode <see cref="T:Flubu.Tasks.Iis.CreateWebApplicationMode"/> </param>
+            <returns>The Iis7CreateWebSiteTask.</returns>
+        </member>
+        <member name="M:Flubu.Tasks.Iis.ICreateWebSiteTask.ApplicationPoolName(System.String)">
+            <summary>
+            Set web site application pool name.
+            </summary>
+            <param name="applicationPool">The application pool name</param>
+            <returns>The  Iis7CreateWebSiteTask.</returns>
+        </member>
+        <member name="M:Flubu.Tasks.Iis.ICreateWebSiteTask.AddMimeType(Flubu.Tasks.Iis.MimeType)">
+            <summary>
+             Add MimeType. Can be used multiple times.
+            </summary>
+            <param name="mimeType">The mime type</param>
+            <returns>The  Iis7CreateWebSiteTask.</returns>
+        </member>
+        <member name="M:Flubu.Tasks.Iis.Iis7.Iis7TaskBase.AddMimeTypes(Microsoft.Web.Administration.Configuration,System.Collections.Generic.IList{Flubu.Tasks.Iis.MimeType})">
+            <summary>
+            Adds mime types.
+            </summary>
+            <param name="config">Config of the website or web application</param>
+            <param name="mimeTypes">List of mime types to be added</param>
+        </member>
+        <member name="M:Flubu.Tasks.Iis.Iis7.Iis7TaskBase.WebsiteExists(Microsoft.Web.Administration.ServerManager,System.String)">
+            <summary>
+            Checks if web site exists in the iis.
+            </summary>
+            <param name="serverManager">the server manager.</param>
+            <param name="siteName">Site name to be checked if it exists.</param>
+            <returns>True if web site exists in iis.</returns>
+        </member>
+        <member name="P:Flubu.Tasks.Iis.Iis7.Iis7CreateWebApplicationTask.WebSiteName">
+            <summary>
+            Gets or sets the Name of the website that the web application is added too. By default it is "Default Web Site"
+            </summary>
+        </member>
+        <member name="F:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.webSiteName">
+            <summary>
+            Name of the website
+            </summary>
+        </member>
+        <member name="F:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.bindingProtocol">
+            <summary>
+            The binding protocol. Http or https.
+            </summary>
+        </member>
+        <member name="F:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.port">
+            <summary>
+            Port of the web application
+            </summary>
+        </member>
+        <member name="F:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.physicalPath">
+            <summary>
+            Physical path to application.
+            </summary>
+        </member>
+        <member name="M:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.DoExecute(Flubu.ITaskContext)">
+            <summary>
+            Creates or updated the web site.
+            </summary>
+            <param name="context">The task context</param>
+        </member>
+        <member name="M:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.Validate">
+            <summary>
+            Validates Ii7CreateWebSiteTask properties.
+            </summary>
+        </member>
+        <member name="M:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.CreateWebSiteBindingProtocol.BindingProtocol(System.String)">
+            <summary>
+            Sets the binding protocol. Http or https.
+            </summary>
+            <param name="bindingProtocol">The binding protocol. Supported values http and https.</param>
+            <returns>new instance of <see cref="T:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.CreateWebSiteProtocol"/></returns>
+        </member>
+        <member name="M:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.CreateWebSiteProtocol.Port(System.Int32)">
+            <summary>
+            Sets the port of the web site.
+            </summary>
+            <param name="port">The port</param>
+            <returns>New instance of <see cref="T:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.CreateWebSitePhysicalPath"/></returns>
+        </member>
+        <member name="M:Flubu.Tasks.Iis.Iis7.Iis7CreateWebSiteTask.CreateWebSitePhysicalPath.PhysicalPath(System.String)">
+            <summary>
+            Sets the physical path to the web site.
+            </summary>
+            <param name="physicalPath">The physical path.</param>
+            <returns>The iI7CreateWebSiteTask.</returns>
+        </member>
+        <member name="P:Flubu.Tasks.Iis.MimeType.FileExtension">
+            <summary>
+            Gets or sets File extension of the mime type.
+            </summary>
+        </member>
+        <member name="P:Flubu.Tasks.Iis.MimeType.Type">
+            <summary>
+            Gets or sets The Mime type.
+            </summary>
+        </member>
         <member name="T:Flubu.Tasks.Misc.CreateCertificateTask">
             <summary>
             Task for creating development self signed certificates. Task uses makecert.exe utility.
