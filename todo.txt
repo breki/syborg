@@ -1,6 +1,4 @@
-- remove Server header and write tests for it
-	- add is as policy?
-- add other secure headers as policy?
+- add PS install script for AppVeyor
 
 - Transfer-Encoding=chunked problem
 
