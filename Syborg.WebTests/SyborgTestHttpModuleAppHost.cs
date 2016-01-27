@@ -43,8 +43,10 @@ namespace Syborg.WebTests
                 webAppRootDir = ApplicationInfo.GetAppDirectoryPath ("..");
 
             ContentCommand contentCommand = RegisterWebContent (webAppRootDir, fileCache, config);
+            TestStreamCommand streamCommand = new TestStreamCommand();
 
             AddRoute (new RegexWebRequestRoute ("^Content/(?<path>.+)$", HttpMethod.GET, contentCommand));            
+            AddRoute (new RegexWebRequestRoute ("^stream/(?<path>.+)$", HttpMethod.GET, streamCommand));
 
             AddPolicies(new IWebPolicy[] { new SecureResponseHeadersPolicy() });
         }

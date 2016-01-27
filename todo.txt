@@ -1,4 +1,4 @@
-- add PS install script for AppVeyor
+- integration tests for StreamResult
 
 - Transfer-Encoding=chunked problem
 

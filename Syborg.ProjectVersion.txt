@@ -1,3 +1,8 @@
+1.4.2.0
+- HttpModuleWebContext.ResponseSendChunked setter no longer throws an exception, it just doesn't do anything
+- StreamResult has a new SendChunked property (default is false)
+- StreamResult now uses native Stream.CopyTo() method
+
 1.4.1.0
 - SyborgTestHttpModuleAppHost now removes Server header from responses (for increased security reasons)
 
