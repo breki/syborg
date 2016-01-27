@@ -9,6 +9,7 @@ using Flubu.Builds.Tasks.TestingTasks;
 using Flubu.Targeting;
 using Flubu.Tasks.Iis;
 using Flubu.Tasks.Iis.Iis7;
+using Flubu.Tasks.Processes;
 
 //css_ref Flubu.dll;
 //css_ref Flubu.Contrib.dll;
@@ -116,21 +117,27 @@ namespace BuildScripts
 
         private static void TargetSetupIis(ITaskContext context)
         {
-            const string AppPoolName = "syborg";
+            RunProgramTask task = new RunProgramTask("PowerShell.exe");
+            task
+                .AddArgument("-executionpolicy").AddArgument("remotesigned")
+                .AddArgument(@"AppVeyor\BuildInstall.ps1");
+            task.Execute(context);
 
-            Iis7CreateAppPoolTask createAppPoolTask = new Iis7CreateAppPoolTask();
-            createAppPoolTask.ApplicationPoolName = AppPoolName;
-            createAppPoolTask.Mode = CreateApplicationPoolMode.UpdateIfExists;
-            createAppPoolTask.AppPoolCustomSetupAction = pool => { pool.ManagedRuntimeVersion = "v4.0"; };
-            createAppPoolTask.Execute(context);
+            //const string AppPoolName = "syborg";
 
-            Iis7CreateWebApplicationTask createWebApplicationTask = new Iis7CreateWebApplicationTask();
-            createWebApplicationTask.AllowAnonymous = true;
-            createWebApplicationTask.ApplicationName = "syborg-tests";
-            createWebApplicationTask.LocalPath = Path.GetFullPath("Syborg.WebTests");
-            createWebApplicationTask.Mode = CreateWebApplicationMode.UpdateIfExists;
-            createWebApplicationTask.ApplicationPoolName = AppPoolName;
-            createWebApplicationTask.Execute(context);
+            //Iis7CreateAppPoolTask createAppPoolTask = new Iis7CreateAppPoolTask();
+            //createAppPoolTask.ApplicationPoolName = AppPoolName;
+            //createAppPoolTask.Mode = CreateApplicationPoolMode.UpdateIfExists;
+            //createAppPoolTask.AppPoolCustomSetupAction = pool => { pool.ManagedRuntimeVersion = "v4.0"; };
+            //createAppPoolTask.Execute(context);
+
+            //Iis7CreateWebApplicationTask createWebApplicationTask = new Iis7CreateWebApplicationTask();
+            //createWebApplicationTask.AllowAnonymous = true;
+            //createWebApplicationTask.ApplicationName = "syborg-tests";
+            //createWebApplicationTask.LocalPath = Path.GetFullPath("Syborg.WebTests");
+            //createWebApplicationTask.Mode = CreateWebApplicationMode.UpdateIfExists;
+            //createWebApplicationTask.ApplicationPoolName = AppPoolName;
+            //createWebApplicationTask.Execute(context);
         }
     }
 }

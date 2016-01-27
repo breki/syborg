@@ -1,4 +1,4 @@
-Install-WindowsFeature Web-WebServer -IncludeAllSubFeature
+#Install-WindowsFeature Web-WebServer -IncludeAllSubFeature
 
 Import-Module WebAdministration
 $iisAppPoolName = "syborg"
@@ -15,4 +15,6 @@ if (!(Test-Path $iisAppPoolName -pathType container))
     #create the app pool
     $appPool = New-Item $iisAppPoolName
     $appPool | Set-ItemProperty -Name "managedRuntimeVersion" -Value $iisAppPoolDotNetVersion
+
+	"Created application pool '{0}'" -f $iisAppPoolName
 }
