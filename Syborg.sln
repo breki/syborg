@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{5D49D61C-5D99-4254-96C0-8B1587BD35F8}"
 	ProjectSection(SolutionItems) = preProject
 		Build.bat = Build.bat
+		AppVeyor\BuildInstall.ps1 = AppVeyor\BuildInstall.ps1
 		CodeAnalysisRules.ruleset = CodeAnalysisRules.ruleset
 		CustomDictionary.xml = CustomDictionary.xml
 		EditStyleCopRules.bat = EditStyleCopRules.bat
