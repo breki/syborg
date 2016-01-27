@@ -1,8 +1,8 @@
-- somehow implement tests for SyborgHttpModule
-	- remove Server header and write tests for it
+- remove Server header and write tests for it
+	- add is as policy?
+- add other secure headers as policy?
 
-	- find out why Transfer-Encoding=chunked is used
-		- maybe because of the way how file is compressed
+- Transfer-Encoding=chunked problem
 
 - make code analysis fail the build
 - fix code analysis and code contracts issues

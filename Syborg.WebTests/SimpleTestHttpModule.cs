@@ -54,14 +54,14 @@ namespace Syborg.WebTests
             log.DebugFormat ("Compressed {0} bytes to {1}", bytes.Length, compressed.Length);
 
             string contentLenStr = compressed.Length.ToString (CultureInfo.InvariantCulture);
-            HttpContext.Current.Response.Headers["Content-Length"] = contentLenStr;
-            context.Response.Headers["Content-Length"] = contentLenStr;
+            //HttpContext.Current.Response.Headers["Content-Length"] = contentLenStr;
+            //context.Response.Headers["Content-Length"] = contentLenStr;
             context.Response.AddHeader ("Content-Encoding", "gzip");
 
-            using (GZipStream compressStream = new GZipStream (context.Response.OutputStream, CompressionMode.Compress, true))
-                compressStream.Write (bytes, 0, bytes.Length);
+            //using (GZipStream compressStream = new GZipStream (context.Response.OutputStream, CompressionMode.Compress, true))
+            //    compressStream.Write (bytes, 0, bytes.Length);
 
-            //context.Response.BinaryWrite (compressed);
+            context.Response.BinaryWrite (compressed);
         }
 
         //private static void DeflateCompressAndWrite (HttpContext context, byte[] bytes)

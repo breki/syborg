@@ -56,7 +56,9 @@
     <Content Include="Content\cached-by-max-age.txt" />
     <Content Include="Content\not-cached.txt" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

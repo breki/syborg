@@ -5,6 +5,7 @@ using LibroLib.Misc;
 using Syborg.Commands;
 using Syborg.ContentHandling;
 using Syborg.Hosting;
+using Syborg.Policies;
 using Syborg.Razor;
 using Syborg.Routing;
 
@@ -44,6 +45,8 @@ namespace Syborg.WebTests
             ContentCommand contentCommand = RegisterWebContent (webAppRootDir, fileCache, config);
 
             AddRoute (new RegexWebRequestRoute ("^Content/(?<path>.+)$", HttpMethod.GET, contentCommand));            
+
+            AddPolicies(new IWebPolicy[] { new SecureResponseHeadersPolicy() });
         }
 
         private ContentCommand RegisterWebContent (string webAppRootDir, IFileCache fileCache, IWebServerConfiguration config)
