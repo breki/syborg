@@ -141,6 +141,7 @@ namespace Syborg
 
         public NameValueCollection ResponseHeaders { get { return context.Response.Headers; } }
 
+        // currently doesn't have any functionality
         // see http://serialseb.com/blog/2008/10/05/httpresponseflush-forces-chunked/
         public bool ResponseSendChunked
         {
@@ -151,7 +152,6 @@ namespace Syborg
 
             set
             {
-                throw new InvalidOperationException ("currently not implemented, since HttpResponse doesn't have the SendChunked property");                
             }
         }
 
