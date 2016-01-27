@@ -4,7 +4,8 @@ Import-Module WebAdministration
 $iisAppPoolName = "syborg"
 $iisAppPoolDotNetVersion = "v4.0"
 $iisAppName = "syborg-tests"
-$directoryPath = "Syborg.WebTests"
+$currentDir = Get-Location
+$appPath = Join-Path $currentDir "\Syborg.WebTests"
 
 #navigate to the app pools root
 cd IIS:\AppPools\
@@ -18,3 +19,5 @@ if (!(Test-Path $iisAppPoolName -pathType container))
 
 	"Created application pool '{0}'" -f $iisAppPoolName
 }
+
+New-WebApplication -Name $iisAppName -ApplicationPool $iisAppPoolName -Force -PhysicalPath $appPath -Site "Default Web Site"
