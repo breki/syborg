@@ -63,8 +63,6 @@ namespace Syborg.Hosting
                 
                 IWebContext context = appHost.CreateWebContext(httpContext);
 
-                RemoveServerHeader(httpContext);
-
                 //if (log.IsDebugEnabled)
                 //    log.DebugFormat("Request: {0}", context.RawUrl);
 
@@ -138,11 +136,6 @@ namespace Syborg.Hosting
             //HttpContext httpContext = application.Context;
             //NameValueCollection headers = httpContext.Response.Headers;
             //log.DebugFormat("resp. headers: {0}", headers.AllKeys.Concat (x => "{0}={1}".Fmt(x, headers[x]), "|"));
-        }
-
-        private static void RemoveServerHeader (HttpContext httpContext)
-        {
-            httpContext.Response.Headers.Remove (HttpConsts.HeaderServer);
         }
 
         private static void LogTraffic(IWebContext context)

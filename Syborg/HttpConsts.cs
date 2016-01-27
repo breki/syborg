@@ -20,6 +20,9 @@ namespace Syborg
         public const string HeaderServer = "Server";
         public const string HeaderStrictTransportSecurity = "Strict-Transport-Security";
         public const string HeaderTransferEncoding = "Transfer-Encoding";
+        public const string HeaderXContentTypeOptions = "X-Content-Type-Options";
+        public const string HeaderXFrameOptions = "X-Frame-Options";
+        public const string HeaderXXssProtection = "X-Xss-Protection";
 
         public const string ContentTypeApplicationJson = "application/json";
         public const string ContentTypeApplicationPdf = "application/pdf";

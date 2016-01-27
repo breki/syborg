@@ -314,6 +314,7 @@
     <Compile Include="IWebServerController.cs" />
     <Compile Include="LoggingSeverity.cs" />
     <Compile Include="Policies\HstsPolicy.cs" />
+    <Compile Include="Policies\SecureResponseHeadersPolicy.cs" />
     <Compile Include="Policies\ValidateETagPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Razor\CompiledRazorTemplate.cs" />
