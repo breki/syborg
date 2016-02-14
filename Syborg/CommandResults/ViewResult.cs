@@ -88,7 +88,7 @@ namespace Syborg.CommandResults
             using (StreamWriter writer = new StreamWriter (context.ResponseStream))
                 writer.Write (contents);
 
-            context.StatusCode = (int)HttpStatusCode.OK;
+            context.StatusCode = StatusCode ?? (int)HttpStatusCode.OK;
             context.ResponseContentType = HttpConsts.ContentTypeTextHtmlUtf8;
 
             if (explicitViewName != null)

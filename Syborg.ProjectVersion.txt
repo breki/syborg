@@ -1,3 +1,6 @@
+1.4.3.0
+- ViewResult now supports overriding StatusCode
+
 1.4.2.0
 - HttpModuleWebContext.ResponseSendChunked setter no longer throws an exception, it just doesn't do anything
 - StreamResult has a new SendChunked property (default is false)
