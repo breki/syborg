@@ -1,4 +1,5 @@
-﻿using LibroLib.Misc;
+﻿using System.Net;
+using LibroLib.Misc;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Syborg.CommandResults;
@@ -40,15 +41,26 @@ namespace Syborg.Tests.WebCommandResultTests
             template.VerifyAllExpectations();
         }
 
+        [Test]
+        public void ViewResultShouldSupportOverridenStatusCode()
+        {
+            ICompiledRazorTemplate template = MockRepository.GenerateMock<ICompiledRazorTemplate>();
+            template.Expect (x => x.Execute (null)).IgnoreArguments ().Return ("rendered view");
+
+            viewRenderingEngine.Expect (x => x.GetViewTemplateByName ("SomeModel")).Return (template);
+
+            SampleViewModel model = new SampleViewModel ();
+            ViewResult<SampleViewModel> result = new ViewResult<SampleViewModel>("SomeModel", model, razorEngineExecutionSettings);
+            result.StatusCode = (int)HttpStatusCode.NotFound;
+            result.Apply (context);
+
+            Assert.AreEqual ((int)HttpStatusCode.NotFound, context.StatusCode);
+        }
+
         [SetUp]
         public void Setup ()
         {
-            //fileSystem = MockRepository.GenerateStub<IFileSystem> ();
             ITimeService timeService = MockRepository.GenerateStub<ITimeService>();
-            //IWebServerConfiguration configuration = MockRepository.GenerateStub<IWebServerConfiguration> ();
-            //configuration.Stub (x => x.WebServerDevelopmentMode).Return (false);
-            //context = new FakeWebContext (null, null, fileSystem, timeService, configuration);
-
             context = new FakeWebContext (null, null, null, timeService, null);
             viewRenderingEngine = MockRepository.GenerateMock<IRazorViewRenderingEngine>();
             context.ViewRenderingEngine = viewRenderingEngine;
@@ -57,7 +69,6 @@ namespace Syborg.Tests.WebCommandResultTests
         }
 
         private FakeWebContext context;
-        //private IFileSystem fileSystem;
         private IRazorViewRenderingEngine viewRenderingEngine;
         private RazorEngineExecutionSettings razorEngineExecutionSettings;
     }
