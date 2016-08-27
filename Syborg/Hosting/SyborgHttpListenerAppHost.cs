@@ -121,7 +121,7 @@ namespace Syborg.Hosting
         [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "httpListener")]
         protected virtual void Dispose (bool disposing)
         {
-            if (false == disposed)
+            if (!disposed)
             {
                 // clean native resources         
 
@@ -143,7 +143,7 @@ namespace Syborg.Hosting
 
             try
             {
-                if (false == httpListener.IsListening)
+                if (!httpListener.IsListening)
                 {
                     log.Info("Received web request, but HTTP listener is not listening");
                     return;

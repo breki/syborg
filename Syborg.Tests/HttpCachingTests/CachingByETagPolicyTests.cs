@@ -58,8 +58,8 @@ namespace Syborg.Tests.HttpCachingTests
         }
 
         private CachingByETagPolicy policy;
-        private TimeSpan maxAge = TimeSpan.FromHours (1);
-        private DateTime lastModifiedTime = new DateTime (2014, 06, 15, 18, 14, 00);
+        private readonly TimeSpan maxAge = TimeSpan.FromHours (1);
+        private readonly DateTime lastModifiedTime = new DateTime (2014, 06, 15, 18, 14, 00);
         private const string ETag = "\"12345\"";
     }
 }

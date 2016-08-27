@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.IO;
+using JetBrains.Annotations;
 using LibroLib.FileSystem;
 using LibroLib.Misc;
 using Syborg.Razor;
@@ -50,6 +51,7 @@ namespace Syborg
 
         string RequestContentType { get; }
         ICookiesCollection RequestCookies { get; }
+        [NotNull]
         NameValueCollection RequestHeaders { get; }
         Stream RequestStream { get; }
         long ResponseContentLength { get; set; }
