@@ -30,6 +30,7 @@ namespace Syborg.Tests
                 {
                     while (true)
                     {
+                        // ReSharper disable once PossibleNullReferenceException
                         int read = stream.Read (buffer, 0, buffer.Length);
                         if (read <= 0)
                             return memoryStream.ToArray ();
@@ -46,6 +47,7 @@ namespace Syborg.Tests
             {
                 lastHttpStatus = (int)response.StatusCode;
                 using (Stream stream = response.GetResponseStream ())
+                    // ReSharper disable once AssignNullToNotNullAttribute
                 using (StreamReader reader = new StreamReader (stream, Encoding.UTF8))
                 {
                     return reader.ReadToEnd ();
@@ -77,6 +79,7 @@ namespace Syborg.Tests
             {
                 lastHttpStatus = (int)response.StatusCode;
                 using (Stream responseStream = response.GetResponseStream ())
+                    // ReSharper disable once AssignNullToNotNullAttribute
                 using (StreamReader reader = new StreamReader (responseStream, Encoding.UTF8))
                 {
                     return reader.ReadToEnd ();

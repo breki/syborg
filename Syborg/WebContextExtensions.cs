@@ -23,10 +23,15 @@ namespace Syborg
                 headerSeparator = "; ";
 
                 string valueComma = null;
-                foreach (string value in context.RequestHeaders.GetValues(header))
+                string[] values = context.RequestHeaders.GetValues(header);
+
+                if (values != null)
                 {
-                    s.AppendFormat("{0}'{1}'", valueComma, value);
-                    valueComma = ",";
+                    foreach (string value in values)
+                    {
+                        s.AppendFormat(CultureInfo.InvariantCulture, "{0}'{1}'", valueComma, value);
+                        valueComma = ",";
+                    }
                 }
             }
 

@@ -1,7 +1,5 @@
-- integration tests for StreamResult
-
-- Transfer-Encoding=chunked problem
-
+- make R# code analysis fail the build
+	- implement task in Flubu
 - make code analysis fail the build
 - fix code analysis and code contracts issues
 - add R# annotations

@@ -41,6 +41,9 @@ namespace Syborg.Routing
             // ensure the URL path is decoded
             string urlPath = HttpUtility.UrlDecode(urlBuilder.Path);
 
+            if (urlPath == null)
+                throw new InvalidOperationException("Cannot process the URL '{0}'".Fmt(context.Url));
+
             string applicationPath = context.ApplicationPath;
 
             if (applicationPath != null)

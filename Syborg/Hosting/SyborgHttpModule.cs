@@ -38,7 +38,7 @@ namespace Syborg.Hosting
 
         protected virtual void Dispose(bool disposing)
         {
-            if (false == disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
