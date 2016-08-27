@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BuildScripts</RootNamespace>
     <AssemblyName>BuildScripts</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -27,6 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Full|AnyCPU'">
     <OutputPath>bin\Full\</OutputPath>
@@ -44,6 +46,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Full-Syborg|AnyCPU'">
     <OutputPath>bin\Full-Syborg\</OutputPath>
@@ -53,27 +56,28 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Flubu, Version=2.5.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flubu.2.5.0.0\lib\Flubu.dll</HintPath>
+    <Reference Include="Flubu, Version=3.5.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flubu.3.5.0\lib\Flubu.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Flubu.Contrib, Version=2.5.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flubu.2.5.0.0\lib\Flubu.Contrib.dll</HintPath>
+    <Reference Include="Flubu.Contrib, Version=3.5.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flubu.3.5.0\lib\Flubu.Contrib.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flubu.2.5.0.0\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\packages\Flubu.3.5.0\lib\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flubu.2.5.0.0\lib\log4net.dll</HintPath>
+      <HintPath>..\packages\Flubu.3.5.0\lib\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flubu.2.5.0.0\lib\NVelocity.dll</HintPath>
+      <HintPath>..\packages\Flubu.3.5.0\lib\NVelocity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -86,8 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildScript.cs" />
-    <Compile Include="Iis7CreateAppPoolTask.cs" />
-    <Compile Include="Iis7CreateWebApplicationTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
