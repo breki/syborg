@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using Flubu;
@@ -7,26 +8,13 @@ using Flubu.Builds.Tasks.AnalysisTasks;
 using Flubu.Builds.Tasks.NuGetTasks;
 using Flubu.Builds.Tasks.TestingTasks;
 using Flubu.Targeting;
-using Flubu.Tasks.Iis;
-using Flubu.Tasks.Iis.Iis7;
 using Flubu.Tasks.Processes;
-
-//css_ref Flubu.dll;
-//css_ref Flubu.Contrib.dll;
-//css_inc Iis7CreateAppPoolTask.cs;
-//css_inc Iis7CreateWebApplicationTask.cs;
 
 namespace BuildScripts
 {
-    public class BuildScript
+    public class BuildScript : DefaultBuildScript
     {
-        public static int Main(string[] args)
-        {
-            DefaultBuildScriptRunner runner = new DefaultBuildScriptRunner(ConstructTargets, ConfigureBuildProperties);
-            return runner.Run(args);
-        }
-
-        private static void ConstructTargets (TargetTree targetTree)
+        protected override void ConfigureTargets(TargetTree targetTree, ICollection<string> args)
         {
             targetTree.AddTarget("clean.output.debug")
                 .DependsOn("load.solution")
@@ -68,14 +56,14 @@ namespace BuildScripts
                 }).DependsOn ("prepare.build.dir", "fetch.build.version");
         }
 
-        private static void ConfigureBuildProperties (TaskSession session)
+        protected override void ConfigureBuildProperties (TaskSession session)
         {
             session.Properties.Set (BuildProps.CompanyName, "Igor Brejc");
             session.Properties.Set (BuildProps.CompanyCopyright, "Copyright (C) 2014-2016 Igor Brejc");
             session.Properties.Set (BuildProps.ProductId, "Syborg");
             session.Properties.Set (BuildProps.ProductName, "Syborg");
             session.Properties.Set (BuildProps.SolutionFileName, "Syborg.sln");
-            session.Properties.Set (BuildProps.TargetDotNetVersion, FlubuEnvironment.Net40VersionNumber);
+            session.Properties.Set(BuildProps.MSBuildToolsVersion, "14.0");
             session.Properties.Set (BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
         }
 
@@ -122,22 +110,6 @@ namespace BuildScripts
                 .AddArgument("-executionpolicy").AddArgument("remotesigned")
                 .AddArgument(@"AppVeyor\BuildInstall.ps1");
             task.Execute(context);
-
-            //const string AppPoolName = "syborg";
-
-            //Iis7CreateAppPoolTask createAppPoolTask = new Iis7CreateAppPoolTask();
-            //createAppPoolTask.ApplicationPoolName = AppPoolName;
-            //createAppPoolTask.Mode = CreateApplicationPoolMode.UpdateIfExists;
-            //createAppPoolTask.AppPoolCustomSetupAction = pool => { pool.ManagedRuntimeVersion = "v4.0"; };
-            //createAppPoolTask.Execute(context);
-
-            //Iis7CreateWebApplicationTask createWebApplicationTask = new Iis7CreateWebApplicationTask();
-            //createWebApplicationTask.AllowAnonymous = true;
-            //createWebApplicationTask.ApplicationName = "syborg-tests";
-            //createWebApplicationTask.LocalPath = Path.GetFullPath("Syborg.WebTests");
-            //createWebApplicationTask.Mode = CreateWebApplicationMode.UpdateIfExists;
-            //createWebApplicationTask.ApplicationPoolName = AppPoolName;
-            //createWebApplicationTask.Execute(context);
         }
     }
 }

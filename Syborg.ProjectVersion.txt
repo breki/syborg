@@ -1,3 +1,7 @@
+1.4.4.0
+- updated all dependencies to latest versions
+- fixed some minor issues reported by R# code analysis
+
 1.4.3.0
 - ViewResult now supports overriding StatusCode
 
