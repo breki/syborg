@@ -1,3 +1,6 @@
+1.4.5.0
+- updated all dependencies to latest versions
+
 1.4.4.0
 - updated all dependencies to latest versions
 - fixed some minor issues reported by R# code analysis
