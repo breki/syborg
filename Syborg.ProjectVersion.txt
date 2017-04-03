@@ -1,4 +1,4 @@
-1.4.5.0
+1.4.5
 - updated all dependencies to latest versions
 
 1.4.4.0
