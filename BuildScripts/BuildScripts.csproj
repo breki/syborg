@@ -59,26 +59,21 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Flubu, Version=3.5.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flubu.3.5.0\lib\Flubu.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Flubu, Version=3.7.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flubu.3.7.0\lib\Flubu.dll</HintPath>
     </Reference>
-    <Reference Include="Flubu.Contrib, Version=3.5.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flubu.3.5.0\lib\Flubu.Contrib.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Flubu.Contrib, Version=3.7.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flubu.3.7.0\lib\Flubu.Contrib.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flubu.3.5.0\lib\ICSharpCode.SharpZipLib.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Flubu.3.7.0\lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flubu.3.5.0\lib\log4net.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Flubu.3.7.0\lib\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flubu.3.5.0\lib\NVelocity.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Flubu.3.7.0\lib\NVelocity.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
