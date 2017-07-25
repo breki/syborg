@@ -29,7 +29,5 @@
     <file src="bin\Release\Syborg.dll" target="lib\net40" />
     <file src="bin\Release\Syborg.pdb" target="lib\net40" />
     <file src="bin\Release\Syborg.xml" target="lib\net40" />
-    <file src="bin\Release\CodeContracts\Syborg.Contracts.dll" target="lib\net40" />
-    <file src="bin\Release\CodeContracts\Syborg.Contracts.pdb" target="lib\net40" />
   </files>
 </package>
