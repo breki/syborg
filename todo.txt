@@ -1,4 +1,5 @@
 - update dependencies in nuspec
+	- also is it net40?
 - migrate to 4.6.1?
 	- check if ScalableMaps allows it
 
