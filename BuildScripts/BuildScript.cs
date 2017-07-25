@@ -59,11 +59,11 @@ namespace BuildScripts
         protected override void ConfigureBuildProperties (TaskSession session)
         {
             session.Properties.Set (BuildProps.CompanyName, "Igor Brejc");
-            session.Properties.Set (BuildProps.CompanyCopyright, "Copyright (C) 2014-2016 Igor Brejc");
+            session.Properties.Set (BuildProps.CompanyCopyright, "Copyright (C) 2014-2017 Igor Brejc");
             session.Properties.Set (BuildProps.ProductId, "Syborg");
             session.Properties.Set (BuildProps.ProductName, "Syborg");
             session.Properties.Set (BuildProps.SolutionFileName, "Syborg.sln");
-            session.Properties.Set(BuildProps.MSBuildToolsVersion, "14.0");
+            session.Properties.Set(BuildProps.MSBuildToolsVersion, "15.0");
             session.Properties.Set (BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
         }
 
