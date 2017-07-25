@@ -1,3 +1,7 @@
+1.4.6
+- updated all dependencies to latest versions
+- migrated to VS2017
+
 1.4.5
 - updated all dependencies to latest versions
 
