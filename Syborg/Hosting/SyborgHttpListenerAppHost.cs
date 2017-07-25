@@ -136,6 +136,7 @@ namespace Syborg.Hosting
             }
         }
 
+        // ReSharper disable once CyclomaticComplexity
         private void WebRequestCallback (IAsyncResult result)
         {
             if (log.IsDebugEnabled)
