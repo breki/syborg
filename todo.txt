@@ -1,3 +1,7 @@
+- update dependencies in nuspec
+- migrate to 4.6.1?
+	- check if ScalableMaps allows it
+
 - make R# code analysis fail the build
 	- implement task in Flubu
 - make code analysis fail the build
