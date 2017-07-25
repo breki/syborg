@@ -131,6 +131,10 @@ namespace Syborg.Razor
         {
             Type templateType = template.GetType();
             PropertyInfo builderProperty = templateType.GetProperty("OutputBuilder");
+
+            if (builderProperty == null)
+                throw new InvalidOperationException("Template is missing the OutputBuilder property.");
+
             StringBuilder outputBuilder = (StringBuilder)builderProperty.GetValue(template, null);
             return outputBuilder.ToString();
         }
