@@ -13,23 +13,19 @@ namespace Syborg.Razor
     public class CompiledRazorTemplate : ICompiledRazorTemplate
     {
         public CompiledRazorTemplate(
-            GeneratorResults generatorResults, 
+            GeneratorResults generatorResults,
             CompilerResults compilerResults)
         {
             this.generatorResults = generatorResults;
             this.compilerResults = compilerResults;
         }
 
-        public ICompiledRazorTemplate LayoutTemplate
-        {
-            get { return layoutTemplate; }
-            set { layoutTemplate = value; }
-        }
+        public ICompiledRazorTemplate LayoutTemplate { get; set; }
 
         public string Execute(RazorEngineExecutionSettings executionSettings)
         {
-            if (layoutTemplate != null)
-                return layoutTemplate.ExecuteWithLayout(this, executionSettings);
+            if (LayoutTemplate != null)
+                return LayoutTemplate.ExecuteWithLayout(this, executionSettings);
 
             object template = CreateTemplateInstance();
             SetTemplateProperties(executionSettings, template);
@@ -40,7 +36,7 @@ namespace Syborg.Razor
         [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public string ExecuteWithLayout (ICompiledRazorTemplate innerTemplate, RazorEngineExecutionSettings executionSettings)
         {
-            if (layoutTemplate != null)
+            if (LayoutTemplate != null)
                 throw new InvalidOperationException("Cannot execute this method on an inner template");
 
             object innerTemplateInstance = innerTemplate.CreateTemplateInstance ();
@@ -114,7 +110,11 @@ namespace Syborg.Razor
                 }
                 catch (Exception ex)
                 {
-                    log.ErrorFormat("Cannot set template property '{0}' to '{1}: {2}", propertyPair.Key, propertyPair.Value, ex);
+                    log.ErrorFormat(
+                        "Cannot set template property '{0}' to '{1}: {2}",
+                        propertyPair.Key,
+                        propertyPair.Value,
+                        ex);
                     throw;
                 }
             }
@@ -124,6 +124,12 @@ namespace Syborg.Razor
         {
             Type templateType = template.GetType();
             MethodInfo executeMethod = templateType.GetMethod("Execute");
+
+            if (executeMethod == null)
+                throw new InvalidOperationException(
+                    "Template {0} does not have the Execute() method.".Fmt(
+                        templateType.FullName));
+
             executeMethod.Invoke(template, null);
         }
 
@@ -141,7 +147,6 @@ namespace Syborg.Razor
 
         private readonly GeneratorResults generatorResults;
         private readonly CompilerResults compilerResults;
-        private ICompiledRazorTemplate layoutTemplate;
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
     }
 }

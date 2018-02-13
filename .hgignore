@@ -26,3 +26,4 @@ TestResult.xml
 *.ReSharper
 TestResult.xml
 *.patch
+.vs/
