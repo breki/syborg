@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics.Contracts;
+using JetBrains.Annotations;
 
 namespace Syborg
 {
     [ContractClass (typeof(IWebPolicyContract))]
     public interface IWebPolicy
     {
-        void Apply(IWebContext context);
+        void Apply([NotNull] IWebContext context);
     }
 
     [ContractClassFor(typeof(IWebPolicy))]
