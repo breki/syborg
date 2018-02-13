@@ -59,7 +59,7 @@ namespace BuildScripts
         protected override void ConfigureBuildProperties (TaskSession session)
         {
             session.Properties.Set (BuildProps.CompanyName, "Igor Brejc");
-            session.Properties.Set (BuildProps.CompanyCopyright, "Copyright (C) 2014-2017 Igor Brejc");
+            session.Properties.Set (BuildProps.CompanyCopyright, "Copyright (C) 2014-2018 Igor Brejc");
             session.Properties.Set (BuildProps.ProductId, "Syborg");
             session.Properties.Set (BuildProps.ProductName, "Syborg");
             session.Properties.Set (BuildProps.SolutionFileName, "Syborg.sln");
