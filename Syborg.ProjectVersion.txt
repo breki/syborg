@@ -1,4 +1,5 @@
 1.5.1
+- HstsPolicy now accepts maxAge parameter
 - updated 3rd party libraries
 
 1.5.0
