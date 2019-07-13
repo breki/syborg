@@ -1,8 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Web;
 
 namespace Syborg
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
+    [SuppressMessage(
+        "Microsoft.Naming",
+        "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
     public sealed class HttpModuleCookiesCollection : ICookiesCollection
     {
         public HttpModuleCookiesCollection(HttpCookieCollection cookies)
@@ -49,10 +52,8 @@ namespace Syborg
             cookies.Set(((HttpModuleCookie)cookie).NativeCookie);
         }
 
-        ICookie ICookiesCollection.this[int index]
-        {
-            get { return new HttpModuleCookie(cookies[index]); }
-        }
+        ICookie ICookiesCollection.this[int index] =>
+            new HttpModuleCookie(cookies[index]);
 
         ICookie ICookiesCollection.this[string name]
         {

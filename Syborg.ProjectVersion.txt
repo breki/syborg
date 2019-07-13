@@ -1,3 +1,7 @@
+1.5.2
+- ICookiesCollection is now equipped with R# annotations
+- FakeCookiesCollection now correctly implements the ICookiesCollection contract
+
 1.5.1
 - HstsPolicy now accepts maxAge parameter
 - updated 3rd party libraries

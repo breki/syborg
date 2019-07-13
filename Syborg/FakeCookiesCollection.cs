@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syborg
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
+    [SuppressMessage(
+        "Microsoft.Naming",
+        "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
     public sealed class FakeCookiesCollection : ICookiesCollection
     {
         public void Add(ICookie cookie)
@@ -23,7 +26,8 @@ namespace Syborg
 
         public ICookie Get(string name)
         {
-            return cookiesDict[name];
+            cookiesDict.TryGetValue(name, out ICookie cookie);
+            return cookie;
         }
 
         public string GetKey(int index)
@@ -38,7 +42,10 @@ namespace Syborg
             cookiesList.Remove(cookie);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
+        [SuppressMessage(
+            "Microsoft.Design",
+            "CA1062:Validate arguments of public methods",
+            MessageId = "0")]
         public void Set(ICookie cookie)
         {
             cookiesDict[cookie.Name] = cookie;
@@ -50,17 +57,12 @@ namespace Syborg
                 cookiesList.Add(cookie);
         }
 
-        ICookie ICookiesCollection.this[int index]
-        {
-            get { return cookiesList[index]; }
-        }
+        ICookie ICookiesCollection.this[int index] => cookiesList[index];
 
-        ICookie ICookiesCollection.this[string name]
-        {
-            get { return cookiesDict[name]; }
-        }
+        ICookie ICookiesCollection.this[string name] => Get(name);
 
         private readonly List<ICookie> cookiesList = new List<ICookie>();
-        private readonly Dictionary<string, ICookie> cookiesDict = new Dictionary<string, ICookie>();
+        private readonly Dictionary<string, ICookie> cookiesDict =
+            new Dictionary<string, ICookie>();
     }
 }

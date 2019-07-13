@@ -1,23 +1,30 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using JetBrains.Annotations;
 
 namespace Syborg
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
+    [SuppressMessage ("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
     [ContractClass (typeof(ICookiesCollectionContract))]
     public interface ICookiesCollection
     {
-        void Add(ICookie cookie);
+        void Add([NotNull] ICookie cookie);
         void Clear();
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get")]
+        [SuppressMessage ("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get")]
+        [NotNull]
         ICookie Get(int index);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get")]
-        ICookie Get(string name);
+        [SuppressMessage ("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get")]
+        [CanBeNull]
+        ICookie Get([NotNull] string name);
+        [NotNull]
         string GetKey(int index);
-        void Remove(string name);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Set")]
-        void Set(ICookie cookie);
+        void Remove([NotNull] string name);
+        [SuppressMessage ("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Set")]
+        void Set([NotNull] ICookie cookie);
         
+        [NotNull]
         ICookie this[int index] { get; }
+        [CanBeNull]
         ICookie this[string name] { get; }
     }
 
