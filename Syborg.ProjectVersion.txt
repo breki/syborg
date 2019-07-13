@@ -1,4 +1,4 @@
-1.6
+1.6.0
 - ICookiesCollection is now equipped with R# annotations
 - FakeCookiesCollection now correctly implements the ICookiesCollection contract
 - updated 3rd party libraries
