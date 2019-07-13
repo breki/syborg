@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
@@ -23,34 +24,25 @@ namespace Syborg
             ITimeService timeService,
             IWebServerConfiguration configuration)
         {
-            this.applicationUrl = applicationUrl;
-            this.applicationPath = applicationPath;
-            this.fileSystem = fileSystem;
-            this.timeService = timeService;
-            this.configuration = configuration;
+            this.ApplicationUrl = applicationUrl;
+            this.ApplicationPath = applicationPath;
+            this.FileSystem = fileSystem;
+            this.TimeService = timeService;
+            this.Configuration = configuration;
         }
 
-        public string ApplicationPath { get { return applicationPath; } }
+        public string ApplicationPath { get; }
 
-        public string ApplicationUrl
-        {
-            get { return applicationUrl; }
-        }
+        public string ApplicationUrl { get; }
 
-        public IWebServerConfiguration Configuration { get { return configuration; } }
+        public IWebServerConfiguration Configuration { get; }
 
-        public IFileMimeTypesMap FileMimeTypesMap
-        {
-            get { return fileMimeTypesMap; }
-            set { fileMimeTypesMap = value; }
-        }
+        public IFileMimeTypesMap FileMimeTypesMap { get; set; } 
+            = new FileMimeTypesMap().RegisterStandardMimeTypes();
 
-        public IFileSystem FileSystem { get { return fileSystem; } }
+        public IFileSystem FileSystem { get; }
 
-        public ITimeService TimeService
-        {
-            get { return timeService; }
-        }
+        public ITimeService TimeService { get; }
 
         public string HttpMethod { get; set; }
         public bool IsRequestLocal { get; set; }
@@ -60,66 +52,42 @@ namespace Syborg
         public bool IsSecureConnection { get; set; }
         public LoggingSeverity LoggingSeverity { get; set; }
 
-        public IList<IWebPolicy> Policies
-        {
-            get { return policies; }
-        }
+        public IList<IWebPolicy> Policies => policies;
 
-        public Stream ResponseStream
-        {
-            get { return responseStream; }
-        }
+        public Stream ResponseStream => responseStream;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public NameValueCollection QueryString
-        {
-            get { return queryString; }
-            set { queryString = value; }
-        }
+        [SuppressMessage ("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public NameValueCollection QueryString { get; set; } = new NameValueCollection();
 
         public string RawUrl { get; set; }
         public string RequestContentType
         {
-            get { return requestHeaders[HttpConsts.HeaderContentType]; }
-            set { requestHeaders[HttpConsts.HeaderContentType] = value; }
+            get => RequestHeaders[HttpConsts.HeaderContentType];
+            set => RequestHeaders[HttpConsts.HeaderContentType] = value;
         }
 
-        public ICookiesCollection RequestCookies
-        {
-            get { return requestCookies; }
-        }
+        public ICookiesCollection RequestCookies => requestCookies;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public NameValueCollection RequestHeaders
-        {
-            get { return requestHeaders; }
-            set { requestHeaders = value; }
-        }
+        [SuppressMessage(
+            "Microsoft.Usage",
+            "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public NameValueCollection RequestHeaders { get; set; } =
+            new NameValueCollection();
 
-        public Stream RequestStream
-        {
-            get { return requestStream; }
-            set { requestStream = value; }
-        }
-        
+        public Stream RequestStream { get; set; } = new MemoryStream();
+
         public long ResponseContentLength { get; set; }
         public string ResponseContentType
         {
-            get { return responseHeaders[HttpConsts.HeaderContentType]; }
-            set { responseHeaders[HttpConsts.HeaderContentType] = value; }
+            get => responseHeaders[HttpConsts.HeaderContentType];
+            set => responseHeaders[HttpConsts.HeaderContentType] = value;
         }
 
-        public ICookiesCollection ResponseCookies
-        {
-            get { return responseCookies; }
-        }
+        public ICookiesCollection ResponseCookies => responseCookies;
 
         public string ResponseDescription { get; set; }
 
-        public NameValueCollection ResponseHeaders
-        {
-            get { return responseHeaders; }
-        }
+        public NameValueCollection ResponseHeaders => responseHeaders;
 
         public bool ResponseSendChunked { get; set; }
 
@@ -143,7 +111,7 @@ namespace Syborg
 
         public void AppendCookie(ICookie cookie)
         {
-            throw new NotImplementedException ("todo");
+            responseCookies.Add(cookie);
         }
 
         public void ApplyPolicies ()
@@ -169,8 +137,8 @@ namespace Syborg
 
         public void SetCookie(ICookie cookie)
         {
-            throw new NotImplementedException("todo");
-        }
+            responseCookies.Set(cookie);
+       }
 
         public void EncodeFormDataToRequest (NameValueCollection formData)
         {
@@ -179,7 +147,7 @@ namespace Syborg
             RequestContentType = HttpConsts.ContentTypeApplicationXWwwFormUrlencoded;
 
             string[] array = formData.AllKeys.SelectMany (
-                key => formData.GetValues (key),
+                formData.GetValues,
                 (key, value) => string.Format (CultureInfo.InvariantCulture, "{0}={1}", HttpUtility.UrlEncode (key), HttpUtility.UrlEncode (value))).ToArray ();
             string encoded = string.Join ("&", array);
 
@@ -196,8 +164,8 @@ namespace Syborg
 
         public string ReadRequestStreamAsText()
         {
-            requestStream.Seek(0, SeekOrigin.Begin);
-            return Encoding.UTF8.GetString(((MemoryStream)requestStream).ToArray());
+            RequestStream.Seek(0, SeekOrigin.Begin);
+            return Encoding.UTF8.GetString(((MemoryStream)RequestStream).ToArray());
         }
 
         public byte[] ReadResponseStreamAsByteArray()
@@ -225,36 +193,25 @@ namespace Syborg
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposed)
                 return;
 
             if (disposing)
             {
-                if (requestStream != null)
-                    requestStream.Dispose();
-                if (responseStream != null)
-                    responseStream.Dispose ();
+                RequestStream?.Dispose();
+                responseStream?.Dispose ();
             }
 
             disposed = true;
         }
 
-        private readonly string applicationUrl;
-        private readonly string applicationPath;
-        private readonly IFileSystem fileSystem;
-        private readonly ITimeService timeService;
-        private readonly IWebServerConfiguration configuration;
         private readonly FakeCookiesCollection requestCookies = new FakeCookiesCollection ();
         private readonly FakeCookiesCollection responseCookies = new FakeCookiesCollection ();
-        private Stream requestStream = new MemoryStream();
         private readonly MemoryStream responseStream = new MemoryStream();
-        private NameValueCollection requestHeaders = new NameValueCollection();
         private readonly WebHeaderCollection responseHeaders = new WebHeaderCollection();
         private readonly List<IWebPolicy> policies = new List<IWebPolicy>();
-        private NameValueCollection queryString = new NameValueCollection();
-        private IFileMimeTypesMap fileMimeTypesMap = new FileMimeTypesMap().RegisterStandardMimeTypes();
         private bool disposed;
     }
 }

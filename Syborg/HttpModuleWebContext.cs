@@ -28,77 +28,53 @@ namespace Syborg
             Contract.Requires(context != null);
 
             this.context = context;
-            this.fileSystem = fileSystem;
-            this.timeService = timeService;
-            this.configuration = configuration;
-            this.viewRenderingEngine = viewRenderingEngine;
-            this.fileMimeTypesMap = fileMimeTypesMap;
+            this.FileSystem = fileSystem;
+            this.TimeService = timeService;
+            this.Configuration = configuration;
+            this.ViewRenderingEngine = viewRenderingEngine;
+            this.FileMimeTypesMap = fileMimeTypesMap;
             requestCookies = new HttpModuleCookiesCollection(context.Request.Cookies);
             responseCookies = new HttpModuleCookiesCollection(context.Response.Cookies);
         }
 
-        public string ApplicationPath
-        {
-            get { return context.Request.ApplicationPath; }
-        }
+        public string ApplicationPath => context.Request.ApplicationPath;
 
-        public string ApplicationUrl
-        {
-            get { return context.Request.Url.GetLeftPart (UriPartial.Authority) + context.Request.ApplicationPath; }
-        }
+        public string ApplicationUrl => context.Request.Url.GetLeftPart (UriPartial.Authority) + context.Request.ApplicationPath;
 
-        public IWebServerConfiguration Configuration
-        {
-            get { return configuration; }
-        }
+        public IWebServerConfiguration Configuration { get; }
 
-        public IFileMimeTypesMap FileMimeTypesMap
-        {
-            get { return fileMimeTypesMap; }
-        }
+        public IFileMimeTypesMap FileMimeTypesMap { get; }
 
-        public IFileSystem FileSystem
-        {
-            get { return fileSystem; }
-        }
+        public IFileSystem FileSystem { get; }
 
-        public ITimeService TimeService
-        {
-            get { return timeService; }
-        }
+        public ITimeService TimeService { get; }
 
-        public string HttpMethod { get { return context.Request.HttpMethod; } }
-        public bool IsRequestLocal
-        {
-            get { return context.Request.IsLocal; }
-        }
+        public string HttpMethod => context.Request.HttpMethod;
 
-        public bool IsResponseClosed
-        {
-            get { return isResponseClosed; }
-        }
+        public bool IsRequestLocal => context.Request.IsLocal;
 
-        public bool IsSecureConnection { get { return context.Request.IsSecureConnection; } }
+        public bool IsResponseClosed { get; private set; }
+
+        public bool IsSecureConnection => context.Request.IsSecureConnection;
+
         public LoggingSeverity LoggingSeverity { get; set; }
 
-        public IList<IWebPolicy> Policies
-        {
-            get { return policies; }
-        }
+        public IList<IWebPolicy> Policies => policies;
 
-        public Stream ResponseStream { get { return context.Response.OutputStream; } }
-        public NameValueCollection QueryString { get { return context.Request.QueryString; } }
-        public string RawUrl { get { return context.Request.RawUrl; } }
-        public string RequestContentType { get { return context.Request.ContentType; } }
+        public Stream ResponseStream => context.Response.OutputStream;
 
-        public ICookiesCollection RequestCookies
-        {
-            get { return requestCookies; }
-        }
+        public NameValueCollection QueryString => context.Request.QueryString;
 
-        public NameValueCollection RequestHeaders { get { return context.Request.Headers; } }
-        public Stream RequestStream { get { return context.Request.InputStream; } }
-        
+        public string RawUrl => context.Request.RawUrl;
+
+        public string RequestContentType => context.Request.ContentType;
+
+        public ICookiesCollection RequestCookies => requestCookies;
+
+        public NameValueCollection RequestHeaders => context.Request.Headers;
+
+        public Stream RequestStream => context.Request.InputStream;
+
         public long ResponseContentLength
         {
             get
@@ -128,27 +104,21 @@ namespace Syborg
         
         public string ResponseContentType
         {
-            get { return context.Response.ContentType; }
-            set { context.Response.ContentType = value; }
+            get => context.Response.ContentType;
+            set => context.Response.ContentType = value;
         }
 
-        public ICookiesCollection ResponseCookies
-        {
-            get { return responseCookies; }
-        }
+        public ICookiesCollection ResponseCookies => responseCookies;
 
         public string ResponseDescription { get; set; }
 
-        public NameValueCollection ResponseHeaders { get { return context.Response.Headers; } }
+        public NameValueCollection ResponseHeaders => context.Response.Headers;
 
         // currently doesn't have any functionality
         // see http://serialseb.com/blog/2008/10/05/httpresponseflush-forces-chunked/
         public bool ResponseSendChunked
         {
-            get
-            {
-                throw new InvalidOperationException("currently not implemented, since HttpResponse doesn't have the SendChunked property");
-            }
+            get => throw new InvalidOperationException("currently not implemented, since HttpResponse doesn't have the SendChunked property");
 
             set
             {
@@ -157,17 +127,19 @@ namespace Syborg
 
         public int StatusCode
         {
-            get { return context.Response.StatusCode; }
-            set { context.Response.StatusCode = value; }
+            get => context.Response.StatusCode;
+            set => context.Response.StatusCode = value;
         }
 
-        public Uri Url { get { return context.Request.Url; } }
-        public Uri UrlReferrer { get { return context.Request.UrlReferrer; } }
+        public Uri Url => context.Request.Url;
 
-        public string UserHostAddress { get { return context.Request.UserHostAddress; } }
-        public string UserHostName { get { return context.Request.UserHostName; } }
+        public Uri UrlReferrer => context.Request.UrlReferrer;
 
-        public IRazorViewRenderingEngine ViewRenderingEngine { get { return viewRenderingEngine; } }
+        public string UserHostAddress => context.Request.UserHostAddress;
+
+        public string UserHostName => context.Request.UserHostName;
+
+        public IRazorViewRenderingEngine ViewRenderingEngine { get; }
 
         public void AddHeader(string name, string value)
         {
@@ -181,7 +153,8 @@ namespace Syborg
 
         public void AppendCookie(ICookie cookie)
         {
-            context.Response.AppendCookie(((HttpModuleCookie)cookie).NativeCookie);
+            context.Response.AppendCookie(
+                ((HttpModuleCookie)cookie).NativeCookie);
         }
 
         public void ApplyPolicies()
@@ -192,11 +165,11 @@ namespace Syborg
 
         public void CloseResponse()
         {
-            if (isResponseClosed)
+            if (IsResponseClosed)
                 throw new InvalidOperationException("The response has already been closed");
 
             context.ApplicationInstance.CompleteRequest();
-            isResponseClosed = true;
+            IsResponseClosed = true;
         }
 
         public ICookie CreateCookie(string name)
@@ -262,15 +235,9 @@ namespace Syborg
         }
 
         private readonly HttpContext context;
-        private readonly IFileSystem fileSystem;
         private readonly HttpModuleCookiesCollection requestCookies;
         private readonly HttpModuleCookiesCollection responseCookies;
-        private readonly ITimeService timeService;
-        private readonly IWebServerConfiguration configuration;
-        private readonly IRazorViewRenderingEngine viewRenderingEngine;
-        private readonly IFileMimeTypesMap fileMimeTypesMap;
         private readonly List<IWebPolicy> policies = new List<IWebPolicy>();
         private static readonly ILog log = LogManager.GetLogger (MethodBase.GetCurrentMethod ().DeclaringType);
-        private bool isResponseClosed;
     }
 }
