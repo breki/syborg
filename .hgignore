@@ -27,3 +27,5 @@ TestResult.xml
 TestResult.xml
 *.patch
 .vs/
+packages
+_NCrunch_*

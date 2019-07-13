@@ -63,7 +63,6 @@ namespace BuildScripts
             session.Properties.Set (BuildProps.ProductId, "Syborg");
             session.Properties.Set (BuildProps.ProductName, "Syborg");
             session.Properties.Set (BuildProps.SolutionFileName, "Syborg.sln");
-            session.Properties.Set(BuildProps.MSBuildToolsVersion, "15.0");
             session.Properties.Set (BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
         }
 
@@ -83,12 +82,12 @@ namespace BuildScripts
         private static void TargetRunTests (ITaskContext context)
         {
             NUnitWithDotCoverTask task = new NUnitWithDotCoverTask (
-                @"packages\NUnit.Console.3.0.1\tools\nunit3-console.exe",
+                @"packages\NUnit.ConsoleRunner.3.10.0\tools\nunit3-console.exe",
                 string.Format (CultureInfo.InvariantCulture, @"Syborg.Tests\bin\{0}\Syborg.Tests.dll", context.Properties[BuildProps.BuildConfiguration]));
             task.FailBuildOnViolations = false;
-            task.NUnitCmdLineOptions = "--labels=All --verbose";
-            task.DotCoverFilters = "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*;-:module=LibroLib*";
-            task.FailBuildOnViolations = false;
+            task.NUnitCmdLineOptions = "--labels=All --trace=Verbose";
+            task.DotCoverFilters = "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*;-:module=LibroLib*;-:class=JetBrains.Annotations.*";
+
             task.Execute (context);
         }
 
